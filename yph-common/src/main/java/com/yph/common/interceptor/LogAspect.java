@@ -22,27 +22,26 @@ import java.lang.reflect.Method;
 @Component
 public class LogAspect {
 
-        @Pointcut("@annotation(com.yph.common.annotation.SysLog)")
-        public void logPointCut() {}
+    @Pointcut("@annotation(com.yph.common.annotation.SysLog)")
+    public void logPointCut() {
+    }
 
-        @Before("logPointCut()")
-        public void saveSysLog(JoinPoint joinPoint) {
-
-
-
-            MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-            Method method = signature.getMethod();
+    @Before("logPointCut()")
+    public void saveSysLog(JoinPoint joinPoint) {
 
 
-            //请求的方法名
-            String className = joinPoint.getTarget().getClass().getName();
-            String methodName = signature.getName();
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        Method method = signature.getMethod();
 
 
-            // 保存 日志
+        //请求的方法名
+        String className = joinPoint.getTarget().getClass().getName();
+        String methodName = signature.getName();
 
 
+        // 保存 日志
 
-        }
 
     }
+
+}
