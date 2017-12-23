@@ -257,11 +257,9 @@
 
     <modules>
         <module>yph-common</module>
-        <module>yph-utils</module>
         <module>yph-user</module>
         <module>yph-system</module>
         <module>yph-admin-web</module>
-        <!--<module>yph-generator</module>-->
     </modules>
 
 </project>
