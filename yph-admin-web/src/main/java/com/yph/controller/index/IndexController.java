@@ -16,6 +16,6 @@ public class IndexController {
 
     @RequestMapping("index")
     public String index(HttpServletRequest request){
-     return "index";
+     return "begin";
     }
 }
