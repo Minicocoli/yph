@@ -25,7 +25,7 @@ public class RequestInterceptor implements HandlerInterceptor {
         String remoteAddr = request.getRemoteAddr();
 //        请求参数
         String queryString = request.getQueryString();
-        log.info("【请求地址】--------> {}",remoteAddr+remotePort+requestURI);
+        log.info("【请求地址】--------> {}",remoteAddr+":"+remotePort+requestURI);
         log.info("【请求参数】--------> {}",queryString);
         return true;
     }
