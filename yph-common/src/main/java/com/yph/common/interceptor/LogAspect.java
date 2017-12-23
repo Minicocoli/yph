@@ -29,7 +29,6 @@ public class LogAspect {
     @Before("logPointCut()")
     public void saveSysLog(JoinPoint joinPoint) {
 
-
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
 

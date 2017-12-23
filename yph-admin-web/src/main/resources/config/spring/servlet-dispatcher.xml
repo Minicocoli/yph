@@ -15,7 +15,10 @@
     <mvc:annotation-driven />
 
     <!--默认扫描的包驱动-->
-    <context:component-scan base-package="com.yph" />
+    <context:component-scan base-package="com.yph.*" />
+
+    <!--默认使用拦截过滤器 过滤css js img 等请求-->
+    <mvc:default-servlet-handler/>
 
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">
@@ -34,6 +37,7 @@
         </property>
     </bean>
 
+    <!--fastJson &ndash;&gt;-->
     <bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter4">
         <property name="supportedMediaTypes">
             <list>
@@ -56,27 +60,23 @@
         </property>
     </bean>
 
-    <!--<mvc:annotation-driven>-->
-        <!--<mvc:message-converters register-defaults="true">-->
-            <!--<bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">-->
-                <!--<property name="supportedMediaTypes">-->
-                    <!--<list>-->
-                        <!--<value>text/html;charset=UTF-8</value>-->
-                        <!--<value>application/json</value>-->
-                        <!--<value>application/xml;charset=UTF-8</value>-->
-                    <!--</list>-->
-                <!--</property>-->
-                <!--<property name="features">-->
-                    <!--<list>-->
-                        <!--<value>WriteMapNullValue</value>-->
-                        <!--<value>QuoteFieldNames</value>-->
-                        <!--<value>WriteDateUseDateFormat</value>-->
-                    <!--</list>-->
-                <!--</property>-->
-            <!--</bean>-->
-        <!--</mvc:message-converters>-->
-    <!--</mvc:annotation-driven>-->
+    <!--说明 :-->
+        <!--interceptors : 定义在interceptors 下面定义的bean是拦截所有的请求。-->
+        <!--interceptor  : 定义在这里可以自定义拦截指定请求。
+     -->
+    <mvc:interceptors>
+        <!--请求拦截: 输出请求地址 方法 参数-->
+        <!--<bean class="com.yph.common.interceptor.RequestInterceptor"/>-->
+        <mvc:interceptor>
+            <mvc:mapping path="/*.htm"/>
+            <mvc:exclude-mapping path="/*.js"/>
+            <mvc:exclude-mapping path="/*.css"/>
+            <bean class="com.yph.common.interceptor.RequestInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
 
+
+    <!--jackJson Json转换  替换成FastJson(阿里巴巴的开源Jar)-->
     <!--<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">-->
         <!--<property name="supportedMediaTypes">-->
             <!--<list>-->
