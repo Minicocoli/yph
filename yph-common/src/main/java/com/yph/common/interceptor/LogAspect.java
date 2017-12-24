@@ -2,7 +2,6 @@ package com.yph.common.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -22,13 +21,14 @@ import java.lang.reflect.Method;
 @Component
 public class LogAspect {
 
+
     @Pointcut("@annotation(com.yph.common.annotation.SysLog)")
     public void logPointCut() {
     }
 
     @Before("logPointCut()")
     public void saveSysLog(JoinPoint joinPoint) {
-
+        log.info("【 系统日志 】 ------------> 保存日志记录 。");
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
 
