@@ -13,7 +13,12 @@
 
     <!--默认扫描的包-->
     <!--<context:component-scan base-package="com.yph"/>-->
+
+    <!--开启注解-->
     <context:annotation-config/>
+
+    <!--全局异常捕获-->
+    <bean class="com.yph.common.resolver.GlobalException"></bean>
 
     <!-- 配置读取外部配置文件 -->
     <context:property-placeholder location="classpath:config/jdbc.properties"/>
@@ -77,11 +82,13 @@
         </property>
     </bean>
 
+    <!--mybatis Config配置文件-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="configLocation" value="classpath:config/mybatis/mybatis.xml" />
         <property name="dataSource" ref="dataSource" />
     </bean>
 
+    <!--每个mapper 配置文件扫描-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.yph.mapper" />
     </bean>

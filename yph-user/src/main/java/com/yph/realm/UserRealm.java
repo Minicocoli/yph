@@ -3,10 +3,7 @@ package com.yph.realm;
 import com.yph.entity.user.User;
 import com.yph.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -26,7 +23,8 @@ public class UserRealm extends AuthorizingRealm {
     private IUserService userService;
 
     /**
-     *  授权 ---->
+     * 授权 ---->
+     *
      * @param principalCollection
      * @return
      */
@@ -36,13 +34,13 @@ public class UserRealm extends AuthorizingRealm {
         // 授权业务逻辑 --->
 
 
-
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         return info;
     }
 
     /**
-     *  认证 ---->
+     * 认证 ---->
+     *
      * @param token
      * @return
      * @throws AuthenticationException
@@ -53,16 +51,25 @@ public class UserRealm extends AuthorizingRealm {
         // 在这里进行登录授权
         String username = (String) token.getPrincipal();
         String password = new String((char[]) token.getCredentials());
-        log.info("{} 登录认证。。。。。",username);
+        log.info("{} 登录认证。。。。。", username);
 
         // 这里处理登陆 帐号逻辑
         User user = userService.findUserByUserNameAndPassword(username, password);
 
-        if(user!=null){
-
-
+        // 判断是否存在该用户
+        if (user == null) {
+            throw new UnknownAccountException("帐号或者密码不正确");
         }
 
+        // 密码错误
+        if (!password.equals(user.getPassword())) {
+            throw new IncorrectCredentialsException("账号或密码不正确");
+        }
+
+        // 账户被删除
+        if ("1".equals(user.getFlag())) {
+            throw new LockedAccountException("账号已被锁定,请联系管理员");
+        }
 
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, password, getName());
         return info;

@@ -71,4 +71,12 @@ public class CommonResult implements Serializable {
         return new CommonResult(ResultConstant.ERROR,ResultConstant.ERROR_MSG);
     }
 
+    /**
+     *  操作失败
+     * @return
+     */
+    public static CommonResult ERROR(String msg){
+        return new CommonResult(ResultConstant.ERROR,msg);
+    }
+
 }

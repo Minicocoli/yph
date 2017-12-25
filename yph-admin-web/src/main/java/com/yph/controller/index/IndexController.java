@@ -33,8 +33,7 @@ import java.util.List;
 @Controller
 public class IndexController {
 
-    @Autowired
-    private Producer producer;
+
 
     /**
      *  首页
@@ -106,30 +105,6 @@ public class IndexController {
         return "user/login";
     }
 
-    /**
-     *  图片验证码
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     */
-    @RequestMapping("captcha")
-    public void captcha(HttpServletResponse response,HttpServletRequest request) throws ServletException, IOException {
-        response.setHeader("Cache-Control", "no-store, no-cache");
-        response.setContentType("image/jpeg");
-
-        //生成文字验证码
-        String text = producer.createText();
-        //生成图片验证码
-        BufferedImage image = producer.createImage(text);
-        //保存到shiro session
-//        ShiroUtils.setSessionAttribute(Constants.KAPTCHA_SESSION_KEY, text);
-
-        HttpSession session = request.getSession();
-        session.setAttribute("validCode",text);
-
-        ServletOutputStream out = response.getOutputStream();
-        ImageIO.write(image, "jpg", out);
-    }
 
 
 }
