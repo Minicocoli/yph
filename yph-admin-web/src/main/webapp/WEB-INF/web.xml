@@ -7,30 +7,15 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:config/spring/spring-context.xml</param-value>
+        <param-value>
+            classpath:config/spring/servlet-dispatcher.xml
+            classpath:config/spring/spring-*.xml
+        </param-value>
     </context-param>
 
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-
-
-    <!--spring-mvc 配置-->
-    <servlet>
-        <servlet-name>dispatcher</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:config/spring/servlet-dispatcher.xml
-            </param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>dispatcher</servlet-name>
-        <url-pattern>*.htm</url-pattern>
-    </servlet-mapping>
 
     <listener>
         <listener-class>org.springframework.web.util.WebAppRootListener</listener-class>
@@ -51,6 +36,63 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!-- 配置Shiro过滤器,先让Shiro过滤系统接收到的请求 -->
+    <!-- 这里filter-name必须对应applicationContext.xml中定义的<bean id="shiroFilter"/> -->
+    <!-- 使用[/*]匹配所有请求,保证所有的可控请求都经过Shiro的过滤 -->
+    <!-- 通常会将此filter-mapping放置到最前面(即其他filter-mapping前面),以保证它是过滤器链中第一个起作用的 -->
+    <filter>
+        <filter-name>shiroFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <!-- 该值缺省为false,表示生命周期由SpringApplicationContext管理,设置为true则表示由servlet container管理 -->
+            <param-name>targetFilterLifecycle</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>shiroFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!--防止 xss漏洞-->
+    <filter>
+        <filter-name>xssFilter</filter-name>
+        <filter-class>com.yph.common.xss.XssFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>xssFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!--spring-mvc 配置-->
+    <servlet>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>
+                classpath:config/spring/servlet-dispatcher.xml
+                classpath:config/spring/spring-*.xml
+            </param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <!--druid -->
+    <servlet>
+        <servlet-name>DruidStatView</servlet-name>
+        <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DruidStatView</servlet-name>
+        <url-pattern>/druid/*</url-pattern>
+    </servlet-mapping>
 
     <!--logback 配置-->
     <context-param>
@@ -64,17 +106,17 @@
     <!--错误页面-->
     <error-page>
         <error-code>404</error-code>
-        <location>/index.jsp</location>
+        <location>/views/error/error404.jsp</location>
     </error-page>
-
     <error-page>
         <error-code>500</error-code>
-        <location>/index.jsp</location>
+        <location>/views/error/error500.jsp</location>
     </error-page>
+
 
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
-    <display-name>Archetype Created Web Application</display-name>
+    <display-name>admin-web-sysetm</display-name>
 </web-app>

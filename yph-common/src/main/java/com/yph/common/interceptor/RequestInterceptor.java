@@ -20,7 +20,6 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info("请求前拦截");
         String requestURI = request.getRequestURI();
         int remotePort = request.getRemotePort();
         String remoteAddr = request.getRemoteAddr();

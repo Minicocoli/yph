@@ -1,6 +1,7 @@
 package com.yph.common.result;
 
 import com.yph.common.constant.ResultConstant;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -10,6 +11,7 @@ import java.io.Serializable;
  * @author : Administrator Hzhan
  * @create ：2017/12/22
  **/
+@Data
 public class CommonResult implements Serializable {
 
     private static final long serialVersionUID = -1624576716511065417L;
