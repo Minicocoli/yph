@@ -5,6 +5,9 @@ import com.google.code.kaptcha.Producer;
 import com.yph.common.result.CommonResult;
 import com.yph.utils.ShiroUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.subject.Subject;
@@ -23,7 +26,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- *  账户 登录
+ * 账户 登录
+ *
  * @author : Administrator Hzhan
  * @create ：2017/12/25
  **/
@@ -36,7 +40,6 @@ public class LoginController {
 
 
     /**
-     *
      * @param request
      * @param userName
      * @param validCode
@@ -47,21 +50,31 @@ public class LoginController {
     @RequestMapping("login")
     public CommonResult login(HttpServletRequest request, String userName, String validCode, String password) {
         String kaptcha = ShiroUtils.getKaptcha(Constants.KAPTCHA_SESSION_KEY);
-        if(!kaptcha.equalsIgnoreCase(validCode)){
+        if (!kaptcha.equalsIgnoreCase(validCode)) {
             return CommonResult.ERROR("验证码不正确！");
         }
 
-        Subject subject = ShiroUtils.getSubject();
-        //sha256加密
+        try {
+            Subject subject = ShiroUtils.getSubject();
+            //sha256加密
 //        password = new Sha256Hash(password).toHex();
-        UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
-        subject.login(token);
-
+            UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
+            subject.login(token);
+        } catch (UnknownAccountException e) {
+            return CommonResult.ERROR(e.getMessage());
+        } catch (IncorrectCredentialsException e) {
+            return CommonResult.ERROR(e.getMessage());
+        } catch (LockedAccountException e) {
+            return CommonResult.ERROR(e.getMessage());
+        } catch (Exception e) {
+            return CommonResult.ERROR(e.getMessage());
+        }
         return CommonResult.SUCCESS();
     }
 
     /**
-     *  图片验证码
+     * 图片验证码
+     *
      * @param response
      * @throws ServletException
      * @throws IOException
@@ -79,21 +92,21 @@ public class LoginController {
         ShiroUtils.setSessionAttribute(Constants.KAPTCHA_SESSION_KEY, text);
 
         HttpSession session = request.getSession();
-        session.setAttribute("validCode",text);
+        session.setAttribute("validCode", text);
 
         ServletOutputStream out = response.getOutputStream();
         ImageIO.write(image, "jpg", out);
     }
 
 
-
     /**
-     *  退出登录
+     * 退出登录
+     *
      * @return
      */
     @ResponseBody
     @RequestMapping("loginOut")
-    public CommonResult loginOut(){
+    public CommonResult loginOut() {
         ShiroUtils.logout();
         return CommonResult.SUCCESS();
     }

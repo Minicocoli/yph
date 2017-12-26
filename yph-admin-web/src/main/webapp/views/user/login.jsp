@@ -107,7 +107,7 @@
                             <label class="kit-login-icon">
                                 <i class="layui-icon">&#xe642;</i>
                             </label>
-                            <input type="text" name="validCode" autocomplete="off" placeholder="输入验证码"
+                            <input type="text" id="validCode" name="validCode" autocomplete="off" placeholder="输入验证码"
                                    class="layui-input">
                             <span class="form-code" id="changeCode" style="position:absolute;right:2px; top:2px;">
                                     <img width="100" height="36" src="${pageContext.request.contextPath}/captcha.htm"
@@ -149,6 +149,7 @@
             form = layui.form;
 
         $('#changeCode').on('click', function () {
+            $("#validCode")[0].value = '';
             $('#changeCode > img')[0].src = '${pageContext.request.contextPath}/captcha.htm';
         });
 
@@ -165,7 +166,7 @@
                     if(retData.code ==0 ){ // 登录成功
                         window.location.href="index.htm";
                     }else{
-                        window.location.href="toLogin.htm";
+                        layer.msg(retData.msg);
                     }
                 });
                 return false;
