@@ -37,11 +37,11 @@
         layer.confirm('确定要退出系统吗？', {
             btn: ['确定','取消'] //按钮
         }, function(){
-            $.post('loginOut.htm',function (data) {
+            layui.jquery.post('loginOut.htm',function (data) {
                var  retData =  JSON.parse(data);
                 if(retData.code ==0){
                     layer.msg('退出成功!即将跳转到登录页面。');
-                    setTimeout("toLogin()",30000);
+                    setTimeout("toLogin()",3000);
                 }
             });
         }, function(){
