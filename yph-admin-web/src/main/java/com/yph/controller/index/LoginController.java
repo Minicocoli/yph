@@ -2,6 +2,7 @@ package com.yph.controller.index;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
+import com.yph.common.annotation.SysLog;
 import com.yph.common.result.CommonResult;
 import com.yph.utils.ShiroUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -110,5 +111,8 @@ public class LoginController {
         ShiroUtils.logout();
         return CommonResult.SUCCESS();
     }
+
+
+
 
 }

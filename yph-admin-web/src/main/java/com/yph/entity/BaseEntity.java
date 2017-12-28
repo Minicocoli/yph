@@ -1,7 +1,6 @@
 package com.yph.entity;
 
 import lombok.Data;
-
 import java.io.Serializable;
 
 /**
