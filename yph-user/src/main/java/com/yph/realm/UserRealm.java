@@ -32,8 +32,6 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         log.info("[ 进行授权 ] ---------->");
         // 授权业务逻辑 --->
-
-
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         return info;
     }

@@ -95,7 +95,8 @@ public class UserServiceImpl implements IUserService{
      * @param password
      * @return
      */
-    public User findUserByUserNameAndPassword(String userName,String password){
+    @Override
+    public User findUserByUserNameAndPassword(String userName, String password){
         HashMap<String, Object> params = new HashMap<>();
         params.put("userName",userName);
         params.put("password",password);

@@ -11,4 +11,12 @@
     <artifactId>yph-system</artifactId>
     <packaging>jar</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.yph</groupId>
+            <artifactId>yph-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
 </project>
