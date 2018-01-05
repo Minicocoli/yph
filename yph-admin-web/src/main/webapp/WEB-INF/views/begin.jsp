@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>后台管理系统</title>
+    <link href="${pageContext.request.contextPath}/img/favicon.ico" rel="shortcut icon">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/js/plugins/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/js/plugins/font-awesome/css/font-awesome.min.css"
           media="all">
@@ -21,7 +22,7 @@
     <jsp:include page="base/footer.jsp"/>
 </div>
 
-<script src="${pageContext.request.contextPath}/js/plugins/layui/lay/modules/jquery.js"></script>
+<%--<script src="${pageContext.request.contextPath}/js/plugins/layui/lay/modules/jquery.js"></script>--%>
 <script src="${pageContext.request.contextPath}/js/plugins/layui/layui.js"></script>
 <script>
     var message;

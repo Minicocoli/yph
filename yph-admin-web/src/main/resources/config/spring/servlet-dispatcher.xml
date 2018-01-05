@@ -28,25 +28,38 @@
 
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">
-            <bean class="com.yph.common.config.FastJsonHttpMessageConverterEx">
+            <!--json处理-->
+            <bean  class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
                 <property name="supportedMediaTypes">
                     <list>
+                        <value>application/json;charset=UTF-8</value>
                         <value>text/html;charset=UTF-8</value>
-                        <value>application/json</value>
-                    </list>
-                </property>
-                <property name="features">
-                    <list>
-                        <value>WriteMapNullValue</value>
-                        <value>QuoteFieldNames</value>
-                        <value>WriteDateUseDateFormat</value>
-                        <!-- 禁用fastjson循环引用检测 -->
-                        <value>DisableCircularReferenceDetect</value>
                     </list>
                 </property>
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
+
+        <!--<mvc:message-converters register-defaults="true">-->
+            <!--<bean class="com.yph.common.config.FastJsonHttpMessageConverterEx">-->
+                <!--<property name="supportedMediaTypes">-->
+                    <!--<list>-->
+                        <!--<value>text/html;charset=UTF-8</value>-->
+                        <!--<value>application/json</value>-->
+                    <!--</list>-->
+                <!--</property>-->
+                <!--<property name="features">-->
+                    <!--<list>-->
+                        <!--<value>WriteMapNullValue</value>-->
+                        <!--<value>QuoteFieldNames</value>-->
+                        <!--<value>WriteDateUseDateFormat</value>-->
+                        <!--&lt;!&ndash; 禁用fastjson循环引用检测 &ndash;&gt;-->
+                        <!--<value>DisableCircularReferenceDetect</value>-->
+                    <!--</list>-->
+                <!--</property>-->
+            <!--</bean>-->
+        <!--</mvc:message-converters>-->
+    <!--</mvc:annotation-driven>-->
 
     <!--说明 :
         interceptors : 定义在interceptors 下面定义的bean是拦截所有的请求。
@@ -64,7 +77,7 @@
     <!--视图解析器-->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-        <property name="prefix" value="WEB-INF/views/"/>
+        <property name="prefix" value="/WEB-INF/views/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
 

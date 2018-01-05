@@ -4,7 +4,7 @@
 <div class="layui-header">
     <div class="layui-logo"><span style="font-size: 21px;">后台管理系统</span></div>
     <ul class="layui-nav layui-layout-left kit-nav">
-        <c:forEach items="${topMenuList}" var="nav">
+        <c:forEach items="${menuList}" var="nav">
             <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/${nav.url}">${nav.name}</a></li>
         </c:forEach>
         <%--<li class="layui-nav-item layui-this">--%>
@@ -20,7 +20,7 @@
     <ul class="layui-nav layui-layout-right kit-nav">
         <li class="layui-nav-item">
             <a href="javascript:;">
-                <img src="http://m.zhengjinfan.cn/images/0.jpg" class="layui-nav-img"> admin
+                <img src="http://m.zhengjinfan.cn/images/0.jpg" class="layui-nav-img"> ${user.userName}
             </a>
             <dl class="layui-nav-child">
                 <dd><a href="javascript:;">基本资料</a></dd>
@@ -37,7 +37,7 @@
         layer.confirm('确定要退出系统吗？', {
             btn: ['确定','取消'] //按钮
         }, function(){
-            layui.jquery.post('loginOut.htm',function (data) {
+            layui.jquery.post('${pageContext.request.contextPath}/sys/user/loginOut.htm',function (data) {
                var  retData =  JSON.parse(data);
                 if(retData.code ==0){
                     layer.msg('退出成功!即将跳转到登录页面。');

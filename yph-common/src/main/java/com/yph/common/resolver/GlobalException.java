@@ -1,14 +1,11 @@
 package com.yph.common.resolver;
 
-import com.alibaba.fastjson.support.spring.FastJsonJsonView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *  全局异常步骤
@@ -27,12 +24,12 @@ public class GlobalException implements HandlerExceptionResolver {
 
         // 处理异常  ---->
         if(e instanceof RuntimeException){
-            FastJsonJsonView view = new FastJsonJsonView();
-            Map<String, Object> attributes = new HashMap<String, Object>();
-            attributes.put("code", "1000001");
-            attributes.put("msg", e.getMessage());
-            view.setAttributesMap(attributes);
-            mv.setView(view);
+//            FastJsonJsonView view = new FastJsonJsonView();
+//            Map<String, Object> attributes = new HashMap<String, Object>();
+//            attributes.put("code", "1000001");
+//            attributes.put("msg", e.getMessage());
+//            view.setAttributesMap(attributes);
+//            mv.setView(view);
         }else{
             mv.setViewName("error/error500.jsp");
         }

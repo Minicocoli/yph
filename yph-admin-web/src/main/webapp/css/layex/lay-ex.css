@@ -1,0 +1,31 @@
+.form-item-ex{
+    margin-bottom: 0px;
+}
+.elem-quote-ex{
+    padding: 0px;
+}
+.input-line-ex{
+    padding-top: 5px;
+    margin-left: 4px;
+    padding-top: 14px;
+}
+.line-button-ex{
+    padding-top: 5px;
+}
+
+.input-ex{
+    height: 30px;
+    font-size: 16px;
+}
+.form-label-ex-4{
+    width: 100px;
+    text-align: center;
+    padding-left: 3px;
+    padding-right: 0px;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.form-input-line-ex{
+    margin-top: 10px;
+}

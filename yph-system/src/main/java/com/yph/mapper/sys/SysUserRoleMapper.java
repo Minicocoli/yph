@@ -3,7 +3,6 @@ package com.yph.mapper.sys;
 import com.yph.entity.sys.SysUserRole;
 
 public interface SysUserRoleMapper {
-
     int deleteByPrimaryKey(Long id);
 
     int insert(SysUserRole record);
@@ -16,4 +15,5 @@ public interface SysUserRoleMapper {
 
     int updateByPrimaryKey(SysUserRole record);
 
+    SysUserRole findSysUserRoleByUserId(Long sysUserId);
 }

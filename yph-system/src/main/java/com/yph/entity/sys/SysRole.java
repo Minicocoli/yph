@@ -6,9 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 @Data
 public class SysRole implements Serializable {
-    private static final long serialVersionUID = 1L;
-
-    private Long roleId;
+    private Long id;
 
     private String roleName;
 
@@ -18,6 +16,7 @@ public class SysRole implements Serializable {
 
     private Date createTime;
 
+    private static final long serialVersionUID = 1L;
 
 
 }

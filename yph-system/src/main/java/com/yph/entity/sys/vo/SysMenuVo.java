@@ -7,32 +7,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 菜单 vo 类
+ * 菜单
  *
  * @author : Administrator Hzhan
- * @create ：2018/1/2
+ * @create ：2018/1/3
  **/
 @Data
 public class SysMenuVo implements Serializable{
 
+    private static final long serialVersionUID = 2688495338266644086L;
+
+    /**
+     *  菜单Id
+     */
+    private Long id;
+
     /**
      *  菜单名称
      */
-    private String name ;
-
+    private String name;
     /**
-     *  地址连接
+     *  菜单地址链接
      */
     private String url;
 
     /**
-     *  类型
-     */
-    private Integer type;
-
-    /**
      *  子菜单
      */
-    private List<SysMenuVo> list =new ArrayList<>();
+    private List<SysMenuVo> menuList =new ArrayList<>();
+
 
 }

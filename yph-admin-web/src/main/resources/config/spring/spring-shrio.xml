@@ -49,9 +49,9 @@
             <value>
                 /css/**=anon
                 /js/**=anon
-                /login.htm=anon
+                /sys/user/login.htm=anon
                 /error/error404.jsp = anon
-                /captcha.htm=anon
+                /sys/user/captcha.htm=anon
                 /**=authc
             </value>
         </property>

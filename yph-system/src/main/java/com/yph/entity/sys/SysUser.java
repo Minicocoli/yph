@@ -4,15 +4,12 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
-
 @Data
 public class SysUser implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private Long id;
 
-    private Long userId;
-
-    private String username;
+    private String userName;
 
     private String password;
 
@@ -25,4 +22,7 @@ public class SysUser implements Serializable {
     private Long createUserId;
 
     private Date createTime;
+
+    private static final long serialVersionUID = 1L;
+
 }

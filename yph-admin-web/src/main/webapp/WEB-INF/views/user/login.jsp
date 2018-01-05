@@ -110,7 +110,7 @@
                             <input type="text" id="validCode" name="validCode" autocomplete="off" placeholder="输入验证码"
                                    class="layui-input">
                             <span class="form-code" id="changeCode" style="position:absolute;right:2px; top:2px;">
-                                    <img width="100" height="36" src="${pageContext.request.contextPath}/captcha.htm"
+                                    <img width="100" height="36" src="${pageContext.request.contextPath}/sys/user/captcha.htm"
                                          id="refImg" style="cursor:pointer;" title="点击刷新"/>
                                 </span>
                         </div>
@@ -150,7 +150,7 @@
 
         $('#changeCode').on('click', function () {
             $("#validCode")[0].value = '';
-            $('#changeCode > img')[0].src = '${pageContext.request.contextPath}/captcha.htm';
+            $('#changeCode > img')[0].src = '${pageContext.request.contextPath}/sys/user/captcha.htm';
         });
 
         //清理左侧菜单缓存
@@ -160,7 +160,7 @@
         $(window).on('load', function () {
             layer.close(index);
             form.on('submit(login)', function (formData) {
-                $.post('${pageContext.request.contextPath}/login.htm', $('#formId').serialize(),function (data) {
+                $.post('${pageContext.request.contextPath}/sys/user/login.htm', $('#formId').serialize(),function (data) {
                     var retData = JSON.parse(data);
                     console.info(retData);
                     if(retData.code ==0 ){ // 登录成功
