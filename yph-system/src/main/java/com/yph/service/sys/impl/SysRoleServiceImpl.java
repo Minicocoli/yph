@@ -6,11 +6,14 @@ import com.yph.entity.sys.SysRole;
 import com.yph.entity.sys.vo.SysRoleVo;
 import com.yph.mapper.sys.SysRoleMapper;
 import com.yph.service.sys.ISysRoleService;
+import com.yph.utils.ShiroUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +38,9 @@ public class SysRoleServiceImpl implements ISysRoleService {
      */
     @Override
     public int saveSysRole(SysRole sysRole) {
+        sysRole.setCreateTime(new Date());
+        sysRole.setFlag(new Byte("0"));
+        sysRole.setCreateUserId(ShiroUtils.getUserId());
         return sysRoleMapper.insert(sysRole);
     }
 
@@ -66,13 +72,41 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @return
      */
     @Override
-    public PageInfo findSysRoleListByPage(Map<String,Object> params) {
-        Integer pageNum = (Integer) params.get("pageNum");
-        Integer pageSize = (Integer) params.get("pageSize");
+    public PageInfo findSysRoleListByPage(Map<String,Object> params,int pageNum,int pageSize) {
         PageHelper.startPage(pageNum,pageSize);
         List<SysRoleVo> list= sysRoleMapper.findSysRoleListByPage(params);
         PageInfo pageInfo = new PageInfo(list);
         return pageInfo;
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public int delSysRoleById(Long id) {
+        return sysRoleMapper.delSysRoleById(id);
+    }
+
+    /**
+     *  查询用户
+     * @param id
+     * @return
+     */
+    @Override
+    public SysRole findSysRoleById(Long id) {
+        return sysRoleMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<SysRole> findSysRoleList(HashMap<String, Object> params) {
+        return sysRoleMapper.findSysRoleList(params);
+    }
+
+    @Override
+    public int batchDelSysRoleByIds(List<Long> list) {
+        return 0;
     }
 
 }

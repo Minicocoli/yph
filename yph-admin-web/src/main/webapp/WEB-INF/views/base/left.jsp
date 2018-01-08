@@ -14,7 +14,7 @@
                             <c:forEach items="${navParent.menuList}" var="navChild">
                                 <dd>
                                     <a href="javascript:;" kit-target
-                                       data-options="{url:'${pageContext.request.contextPath}${navChild.url}',icon:'&#xe658;',title:'${navChild.name}',id:'${navChild.id}'}"><i
+                                       data-options="{url:'${pageContext.request.contextPath}/${navChild.url}',icon:'&#xe658;',title:'${navChild.name}',id:'${navChild.id}'}"><i
                                             class="layui-icon">&#xe658;</i><span> ${navChild.name}</span></a>
                                 </dd>
                             </c:forEach>

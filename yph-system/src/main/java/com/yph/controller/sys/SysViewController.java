@@ -21,7 +21,7 @@ public class SysViewController {
      */
     @RequestMapping("eidtSysMenuView")
     public String eidtSysMenuView(){
-        return "sys/edit_menu";
+        return "sys/menu_list";
     }
 
     /**
@@ -32,5 +32,25 @@ public class SysViewController {
     public String eidtSysUserView(){
         return "";
     }
+
+    /**
+     *  跳转到 系统角色列表
+     * @return
+     */
+    @RequestMapping("toSysRoleListView")
+    public String toSysRoleListView(){
+        return "sys/sys_role_list";
+    }
+
+    /**
+     *  跳转到编辑角色菜单
+     * @return
+     */
+    @RequestMapping("toEditRoleMenuView")
+    public String toEditRoleMenuView(){
+        return "";
+    }
+
+
 
 }

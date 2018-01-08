@@ -14,9 +14,8 @@
             http://www.springframework.org/schema/aop/spring-aop-3.1.xsd"
        default-lazy-init="true">
 
-    <!--mvc 注解驱动-->
-    <mvc:annotation-driven/>
     <context:annotation-config />
+
     <!-- 开启aspectj切面支持 -->
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 
@@ -26,10 +25,24 @@
     <!--默认使用拦截过滤器 过滤css js img 等请求-->
     <mvc:default-servlet-handler/>
 
+    <!--全局日期转换-->
+    <bean id="dateConverter" class="com.yph.common.DateConverter.DateConverter"/>
+
+    <!--mvc 注解驱动-->
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">
             <!--json处理-->
-            <bean  class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <!--<property name="objectMapper"  ref="dateConverter" />-->
+                <property name="objectMapper">
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                        <property name="dateFormat">
+                            <bean class="java.text.SimpleDateFormat">
+                                <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" />
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
                 <property name="supportedMediaTypes">
                     <list>
                         <value>application/json;charset=UTF-8</value>
@@ -40,26 +53,7 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
-        <!--<mvc:message-converters register-defaults="true">-->
-            <!--<bean class="com.yph.common.config.FastJsonHttpMessageConverterEx">-->
-                <!--<property name="supportedMediaTypes">-->
-                    <!--<list>-->
-                        <!--<value>text/html;charset=UTF-8</value>-->
-                        <!--<value>application/json</value>-->
-                    <!--</list>-->
-                <!--</property>-->
-                <!--<property name="features">-->
-                    <!--<list>-->
-                        <!--<value>WriteMapNullValue</value>-->
-                        <!--<value>QuoteFieldNames</value>-->
-                        <!--<value>WriteDateUseDateFormat</value>-->
-                        <!--&lt;!&ndash; 禁用fastjson循环引用检测 &ndash;&gt;-->
-                        <!--<value>DisableCircularReferenceDetect</value>-->
-                    <!--</list>-->
-                <!--</property>-->
-            <!--</bean>-->
-        <!--</mvc:message-converters>-->
-    <!--</mvc:annotation-driven>-->
+
 
     <!--说明 :
         interceptors : 定义在interceptors 下面定义的bean是拦截所有的请求。
