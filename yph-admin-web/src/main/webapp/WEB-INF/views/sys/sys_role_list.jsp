@@ -10,9 +10,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/js/plugins/font-awesome/css/font-awesome.min.css"
           media="all">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layex/lay-ex.css" media="all">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" media="all">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/treeview/bootstrap-treeview.min.css"
-          media="all">
 </head>
 <body id="body" style="height:100%;width: 100%;padding:0;margin: 0;">
 <input type="text" id="path" hidden="hidden" value="${pageContext.request.contextPath}">
@@ -112,7 +109,6 @@
 </script>
 
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/css/treeview/bootstrap-treeview.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/layui/layui.js"></script>
 <script src="${pageContext.request.contextPath}/js/sys/sys_role_list.js"></script>
 </body>

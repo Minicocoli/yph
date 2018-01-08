@@ -48,7 +48,7 @@ public class SysViewController {
      */
     @RequestMapping("toEditRoleMenuView")
     public String toEditRoleMenuView(){
-        return "";
+        return "sys/sys_role_menu";
     }
 
 

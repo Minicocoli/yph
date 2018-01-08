@@ -29,7 +29,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
     var bodyWidth = $('#body')[0].offsetWidth;
     var contentHeight = $('#content')[0].offsetHeight;
     $('#content')[0].style.width = bodyWidth + 'px';
-    var tableHeight = contentHeight - 176;
+    var tableHeight = contentHeight - 136;
 
 
     /**

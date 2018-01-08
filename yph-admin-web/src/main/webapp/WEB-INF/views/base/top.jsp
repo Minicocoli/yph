@@ -5,7 +5,7 @@
     <div class="layui-logo"><span style="font-size: 21px;">后台管理系统</span></div>
     <ul class="layui-nav layui-layout-left kit-nav">
         <c:forEach items="${menuList}" var="nav">
-            <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/${nav.url}">${nav.name}</a></li>
+            <li class="layui-nav-item"><a href="javascript:void(0);">${nav.name}</a></li>
         </c:forEach>
         <%--<li class="layui-nav-item layui-this">--%>
         <%--<a href="javascript:;">客户系统</a>--%>
