@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="yph-admin-web" />
+        <module name="yph-common" />
+        <module name="yph-system" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="yph" target="1.7" />
+      <module name="yph-admin-web" target="1.7" />
+      <module name="yph-common" target="1.7" />
+      <module name="yph-system" target="1.7" />
+      <module name="yph-user" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
