@@ -19,6 +19,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +39,21 @@ public class IndexController {
     private ISysUserRoleService sysUserRoleService;
 
     /**
+     *  首次进入系统
+     * @return
+     */
+    @RequestMapping("/")
+    public String gotIndex(){
+        if(ShiroUtils.getSession()!=null){
+            log.info("[校验登录]  已登录 ");
+            return "begin";
+        }else{
+            return "user/login";
+        }
+    }
+
+
+    /**
      *  首页
      * @param request
      * @return
@@ -46,11 +62,16 @@ public class IndexController {
     @SysLog("登陆日志")
     @RequestMapping("index")
     public String index(HttpServletRequest request) {
+//        if(request.getSession().getAttribute("menuList")!=null){
+//            log.info("[ 菜单从 request 域获取 ]");
+//            return "begin";
+//        }
         SysUser sysUser = ShiroUtils.getUser();
         SysUserRole sysUserRole = sysUserRoleService.findSysUserRoleByUserId(sysUser.getId());
         List<SysMenuVo> sysMenuList = sysMenuService.findSysMenuListByRole(sysUserRole.getRoleId());
-        request.setAttribute("menuList",sysMenuList);
-        request.getSession().setAttribute("user",sysUser);
+        HttpSession session = request.getSession();
+        session.setAttribute("menuList",sysMenuList);
+        session.setAttribute("user",sysUser);
         return "begin";
     }
 

@@ -7,11 +7,19 @@
 // 开启创建菜单页面
 var openCreateMenuWindow = null;
 
-var batchDelMenus =null;
+var batchDelMenus = null;
 
-var search =null;
+var formSearch = null;
 
-layui.use(['laydate', 'laypage', 'layer', 'table','form','element'], function () {
+layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function () {
+
+    var laydate = layui.laydate //日期
+        , laypage = layui.laypage //分页
+        , form = layui.form //分页
+    layer = layui.layer //弹层
+        , table = layui.table //表格
+        , element = layui.element; //元素操作
+
 
     // 项目路径
     var serverPath = $('#path').val();
@@ -31,30 +39,11 @@ layui.use(['laydate', 'laypage', 'layer', 'table','form','element'], function ()
      * @type {{pageNum: number, pageSize: number, name: null}}
      */
     var filter = {
-        createTime:null,
+        createTime: null,
         pageNum: 1,
         pageSize: 20,
         name: null
     };
-
-    /**
-     *  分页对象
-     * @type {{count: null, limit: null, limits: null, curr: null}}
-     */
-    var page = {
-        count: null,
-        limit: 20,
-        limits: [20, 30, 40, 50],
-        curr: 1,
-        groups: 5
-    }
-
-    var laydate = layui.laydate //日期
-        , laypage = layui.laypage //分页
-        , form = layui.form //分页
-    layer = layui.layer //弹层
-        , table = layui.table //表格
-        , element = layui.element; //元素操作
 
     /**
      *  初始化日期
@@ -100,7 +89,19 @@ layui.use(['laydate', 'laypage', 'layer', 'table','form','element'], function ()
         $('#menuTree').treeview({data: treeData});
     }
 
-    var isPaging =false;
+    var isPaging = false;
+    /**
+     *  分页对象
+     * @type {{count: null, limit: null, limits: null, curr: null}}
+     */
+    var page = {
+        count: null,
+        limit: 20,
+        limits: [20, 30, 40, 50],
+        curr: 1,
+        groups: 5
+    }
+
     /**
      *  初始化分页
      */
@@ -116,7 +117,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table','form','element'], function ()
             , jump: function (obj, first) {
                 //首次不执行
                 if (!first) {
-                    if(!isPaging){
+                    if (!isPaging) {
                         layer.load(0, {shade: false});
                         isPaging = true;
                         page.curr = obj.curr;
@@ -124,11 +125,10 @@ layui.use(['laydate', 'laypage', 'layer', 'table','form','element'], function ()
                         filter.pageNum = obj.curr;
                         filter.pageSize = obj.limit;
                         getMenuListPage();
-                    }else{
+                    } else {
                         layer.msg('亲! 不要点击这么快啦~~~~ ');
                     }
                 }
-
             }
         });
     }
@@ -144,11 +144,9 @@ layui.use(['laydate', 'laypage', 'layer', 'table','form','element'], function ()
             offset: 'auto',
             anim: 2,
             fixed: false,
-            maxHeight:430,
-            maxWidth:840,
             offset: '100px',
             scrollbar: false,
-            resize:false,
+            resize: false,
             area: ['850px', '500px'],
             content: $('#createMenuWindow')
         });
@@ -157,7 +155,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table','form','element'], function ()
     /**
      *  监听 新增菜单的保存按钮操作
      */
-    form.on('submit(saveMenu)', function(data){
+    form.on('submit(saveMenu)', function (data) {
         saveMenu(data.field);
         return false;
     });
@@ -165,13 +163,13 @@ layui.use(['laydate', 'laypage', 'layer', 'table','form','element'], function ()
     /**
      *  监听菜单级别的选择
      */
-    form.on('select(menuTypeFilter)', function(data){
+    form.on('select(menuTypeFilter)', function (data) {
         var type = data.value;
-        if(type!=''){
-            if(type=='0'){
+        if (type != '') {
+            if (type == '0') {
                 refreshMenuSelect(null);
-            }else{
-                type =type-1;
+            } else {
+                type = type - 1;
                 findMenuByType(type);
             }
         }
@@ -182,27 +180,28 @@ layui.use(['laydate', 'laypage', 'layer', 'table','form','element'], function ()
      *  刷新 上级菜单下拉框
      */
     var refreshMenuSelect = function (menuList) {
-      if(menuList!=null){
-          var htm = '<option value="" selected="">请选择上级菜单</option>';
-          for(var i=0;i<menuList.length;i++){
-              htm = htm +'<option value="'+menuList[i].id+'" >'+menuList[i].name+'</option>';
-          }
-          $('#parentMenus').html(htm);
+        if (menuList != null) {
+            var htm = '<option value="" selected="">请选择上级菜单</option>';
+            for (var i = 0; i < menuList.length; i++) {
+                htm = htm + '<option value="' + menuList[i].id + '" >' + menuList[i].name + '</option>';
+            }
+            $('#parentMenus').html(htm);
 
-          // form.render('select','parentMenuFilter');
-          form.render('select');
-      }
+            // form.render('select','parentMenuFilter');
+            form.render('select');
+        }
     }
 
 
     //监听工具条
-    table.on('tool(menuFilter)', function(obj){
-        if(obj.event === 'edit'){
-
-        }else if(obj.event === 'del'){
+    table.on('tool(menuFilter)', function (obj) {
+        if (obj.event === 'edit') {
+            // 编辑
+            openEditWindow(obj.data);
+        } else if (obj.event === 'del') {
             layer.confirm('确定要删除该菜单', {
-                btn: ['确定','取消'] //按钮
-            }, function(){
+                btn: ['确定', '取消'] //按钮
+            }, function () {
                 delMenuById(obj.data.id);
             });
         }
@@ -214,30 +213,105 @@ layui.use(['laydate', 'laypage', 'layer', 'table','form','element'], function ()
      */
     batchDelMenus = function () {
         layer.confirm('确定要删除所选的？', {
-            btn: ['确定','取消'] //按钮
-        }, function(){
+            btn: ['确定', '取消'] //按钮
+        }, function () {
             var selectIds = [];
             var selectObjList = table.checkStatus('idMenu').data;
-            if(selectObjList.length>0){
-                for(var i =0;i<selectObjList.length;i++){
+            if (selectObjList.length > 0) {
+                for (var i = 0; i < selectObjList.length; i++) {
                     selectIds.push(selectObjList[i].id);
                 }
                 console.log(selectIds);
                 batchDelMenusByIds(selectIds);
-            }else{
+            } else {
                 layer.msg('请选择要删除的菜单选项喔!');
             }
-        }, function(){
+        }, function () {
         });
     }
 
     /**
      *  搜索功能
      */
-    search = function () {
-        filter.name =  $('#searchName')[0].value;
-        filter.createTime =  $('#searchCreateTime')[0].value;
+    formSearch = function () {
+        filter.name = $('#searchName')[0].value;
+        filter.createTime = $('#searchCreateTime')[0].value;
         getMenuListPage();
+    }
+
+    /**
+     *   开启编辑窗口
+     * @param data  选中的行的数据
+     */
+    var openEditWindow = function (data) {
+        // 数据回显
+        $('#id')[0].value = data.id;
+        $('#sort')[0].value = data.sort;
+        $('#url')[0].value = data.url;
+        $('#name')[0].value = data.name;
+
+        // 渲染下拉选择框 ---> 【菜单类型】
+        renderSelect(data.type,data.parentId);
+
+        layer.open({
+            type: 1,
+            title: ['编辑菜单', 'font-size:18px;'],
+            offset: 'auto',
+            anim: 2,
+            fixed: false,
+            offset: '100px',
+            scrollbar: false,
+            resize: false,
+            area: ['850px', '500px'],
+            content: $('#createMenuWindow'),
+            end: function () {
+                // 将回显的数据清空
+                $('#id')[0].value = '';
+                $('#sort')[0].value = '';
+                $('#url')[0].value = '';
+                $('#name')[0].value = '';
+            }
+        });
+    }
+
+    /**
+     *  通过菜单类型回显
+     * @param type
+     */
+    var renderSelect = function (type,parentId) {
+        // 回显菜单类型
+        var selectMenusType = ['一级菜单', '二级菜单', '三级菜单'];
+        var htm = '<option value="">请选择菜单类型</option>';
+        for (var i = 0; i < selectMenusType.length; i++) {
+            if (type == i) {
+                htm = htm + '<option value="' + i + '" selected="" >' + selectMenusType[i] + '</option>';
+            } else {
+                htm = htm + '<option value="' + i + '" >' +  selectMenusType[i] + '</option>';
+            }
+        }
+        $('#menuType').html(htm);
+        form.render('select');
+        // 回显上级菜单
+        findMenuByType(type ,true,parentId);
+    }
+
+    /**
+     *   渲染上级菜单 回显
+     * @param list
+     */
+    var renderParentMenu = function (list,parentId) {
+        var parentMenuHtm = '请选择上级菜单';
+        for (var i = 0; i < list.length; i++) {
+            if(list[i].parentId == parentId){
+                parentMenuHtm =parentMenuHtm +'<option value="' + list[i].id + '" selected="" >' + list[i].name + '</option>';
+            }else{
+                parentMenuHtm =parentMenuHtm +'<option value="' + list[i].id + '" >' + list[i].name + '</option>';
+            }
+        }
+
+        $('#parentMenus').html(parentMenuHtm);
+
+        form.render('select');
     }
 
 
@@ -280,10 +354,10 @@ layui.use(['laydate', 'laypage', 'layer', 'table','form','element'], function ()
      */
     var getMenuListPage = function () {
         $.post(serverPath + "/sys/menu/findMenuListByPage.htm", {
-            pageNum:filter.pageNum,
-            pageSize:filter.pageSize,
-            name:$('#searchName')[0].value,
-            createTime:$('#searchCreateTime')[0].value
+            pageNum: filter.pageNum,
+            pageSize: filter.pageSize,
+            name: $('#searchName')[0].value,
+            createTime: $('#searchCreateTime')[0].value
         }, function (data) {
             var retObj = JSON.parse(data);
             if (retObj.code == '0') {
@@ -300,18 +374,25 @@ layui.use(['laydate', 'laypage', 'layer', 'table','form','element'], function ()
 
     /**
      *   保存系统菜单
+     *      通过Id 判断是更新还是新增
      * @param data
      */
-    var saveMenu =function (data) {
-        $.post(serverPath+'/sys/menu/saveSysMenu.htm',data,function(data){
-          var retData = JSON.parse(data);
-          if(retData.code =='0'){
-              layer.closeAll();
-              layer.msg('添加菜单成功!');
-              getMenuListPage();
-          }else{
-            layer.msg(retData.msg);
-          }
+    var saveMenu = function (data) {
+        var url = '';
+        if (data.id != null && data.id != '') {
+            url = serverPath + '/sys/menu/updateSysMenu.htm';
+        } else {
+            url = serverPath + '/sys/menu/saveSysMenu.htm'
+        }
+        $.post(url, data, function (data) {
+            var retData = JSON.parse(data);
+            if (retData.code == '0') {
+                layer.closeAll();
+                layer.msg(retData.msg);
+                getMenuListPage();
+            } else {
+                layer.msg(retData.msg);
+            }
         });
     }
 
@@ -320,53 +401,61 @@ layui.use(['laydate', 'laypage', 'layer', 'table','form','element'], function ()
      * @param menuId
      */
     var delMenuById = function (menuId) {
-        $.post(serverPath+'/sys/menu/delSysMenuById.htm',{
-            id :menuId
-        },function(data){
+        $.post(serverPath + '/sys/menu/delSysMenuById.htm', {
+            id: menuId
+        }, function (data) {
             var retData = JSON.parse(data);
-            if(retData.code =='0'){
+            if (retData.code == '0') {
                 layer.closeAll();
                 layer.msg(retData.msg);
                 getMenuListPage();
-            }else{
+            } else {
                 layer.msg(retData.msg);
             }
         });
-    }
-
-
-    /**
-     *   更新菜单
-     * @param data
-     */
-    var updateMenu = function (data) {
-        $.post(serverPath+'/sys/menu/delSysMenuById.htm',{},function(data){
-            var retData = JSON.parse(data);
-            if(retData.code =='0'){
-
-            }else{
-                layer.msg(retData.msg);
-            }
-        });
-
     }
 
     /**
      *  通过类别获取菜单数据
+     *      PS : 进行了缓存 -->
      * @param type
      */
-    var findMenuByType = function (type) {
-        $.post(serverPath+'/sys/menu/findSysMenuListByType.htm',{
-            type:type
-        },function(data){
-            var retData = JSON.parse(data);
-            if(retData.code =='0'){
-               var menuList = retData.data;
-                refreshMenuSelect(menuList);
+    var findMenuByType = function (type,isEdit,parentId) {
+        // 先读取缓存
+        var list = sessionStorage.getItem('menu_' + type);
+        if (list != null) {
+            list = JSON.parse(list);
+            //
+            if(isEdit){
+                renderParentMenu(list,parentId);
             }else{
-                layer.msg(retData.msg);
+                refreshMenuSelect(list);
             }
-        });
+        } else {
+            $.post(serverPath + '/sys/menu/findSysMenuListByType.htm', {
+                type: type
+            }, function (data) {
+                var retData = JSON.parse(data);
+                if (retData.code == '0') {
+                    var menuList = retData.data;
+                    sessionStorage.setItem('menu_' + type, JSON.stringify(menuList));
+                    //
+                    if(isEdit){
+                        renderParentMenu(list,parentId);
+                    }else{
+                        refreshMenuSelect(menuList);
+                    }
+                } else {
+                    layer.msg(retData.msg);
+                }
+            });
+        }
+    }
+
+    /**
+     *   清除下拉菜单缓存
+     */
+    var clearAllCache = function () {
     }
 
 
@@ -377,15 +466,15 @@ layui.use(['laydate', 'laypage', 'layer', 'table','form','element'], function ()
     var batchDelMenusByIds = function (ids) {
         $.ajax({
             type: "POST",
-            url: serverPath+"/sys/menu/batchDelSysMenuByIds.htm",
+            url: serverPath + "/sys/menu/batchDelSysMenuByIds.htm",
             dataType: "json",
             traditional: true,
-            data:{
-                ids:ids
+            data: {
+                ids: ids
             },
             async: true,
             success: function (data) {
-                if(data.code =='0'){
+                if (data.code == '0') {
                     layer.closeAll();
                     layer.msg('删除成功!');
                     getMenuListPage();

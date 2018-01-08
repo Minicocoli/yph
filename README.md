@@ -13,21 +13,25 @@ Create By Hokok 2017-12-22
     
     4)  yph-system    : 系统框架模块。内有菜单管理、基础数据等。
     
-    5) yph-user      : 系统用户模块。
-    
-    6)  yph-utils     : 系统工具包模块。
     
     ..........
     
- 3：http://localhost:8080/admin/swagger-ui.html
+ 3：api 接口文档地址
  
+    http://localhost:8080/admin/swagger-ui.html
  
+ 4：前端框架使用 layUi
+    
+    layui 文档地址：http://www.layui.com/demo/
  
+    1) 遵循页面和js的分离。
+    
+    2) 遵循js渲染逻辑 和 数据操作分离。
+    
+    3) 遵循方法代码上写注释。
+    
+    4) 遵循命名规范。(驼峰法)
  
- 
- 
-
-
 
 
 

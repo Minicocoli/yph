@@ -1,11 +1,16 @@
 package com.yph.common.resolver;
 
+import com.alibaba.druid.support.json.JSONUtils;
+import com.yph.common.result.CommonResult;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 
 /**
  *  全局异常步骤
@@ -24,12 +29,12 @@ public class GlobalException implements HandlerExceptionResolver {
 
         // 处理异常  ---->
         if(e instanceof RuntimeException){
-//            FastJsonJsonView view = new FastJsonJsonView();
-//            Map<String, Object> attributes = new HashMap<String, Object>();
-//            attributes.put("code", "1000001");
-//            attributes.put("msg", e.getMessage());
-//            view.setAttributesMap(attributes);
-//            mv.setView(view);
+            MappingJackson2JsonView jsonView = new MappingJackson2JsonView();
+            HashMap<String, Object> errorMap = new HashMap<>();
+            errorMap.put("code","1");
+            errorMap.put("msg",e.getMessage());
+            jsonView.setAttributesMap(errorMap);
+            mv.setView(jsonView);
         }else{
             mv.setViewName("error/error500.jsp");
         }

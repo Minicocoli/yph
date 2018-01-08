@@ -11,11 +11,8 @@
             http://www.springframework.org/schema/aop/spring-aop-3.1.xsd"
        default-lazy-init="true">
 
-    <!--默认扫描的包-->
-    <!--<context:component-scan base-package="com.yph"/>-->
-
     <!--开启注解-->
-    <context:annotation-config/>
+    <!--<context:annotation-config/>-->
 
     <!--全局异常捕获-->
     <bean class="com.yph.common.resolver.GlobalException"></bean>
@@ -86,19 +83,6 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="configLocation" value="classpath:config/mybatis/mybatis.xml" />
         <property name="dataSource" ref="dataSource" />
-        <!-- 配置分页插件 -->
-        <!--<property name="plugins">-->
-            <!--<array>-->
-                <!--<bean class="com.github.pagehelper.PageHelper">-->
-                    <!--<property name="properties">-->
-                        <!--<value>-->
-                            <!--dialect=mysql-->
-                            <!--reasonable=true-->
-                        <!--</value>-->
-                    <!--</property>-->
-                <!--</bean>-->
-            <!--</array>-->
-        <!--</property>-->
     </bean>
 
     <!--每个mapper 配置文件扫描-->
