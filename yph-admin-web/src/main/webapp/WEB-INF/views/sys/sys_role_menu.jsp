@@ -11,8 +11,12 @@
           media="all">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layex/lay-ex.css" media="all">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" media="all">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/treeview/bootstrap-treeview.min.css"
-          media="all">
+
+    <%--ztree 插件--%>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/js/plugins/ztree/assets/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/js/plugins/ztree/dist/zTreeStyle.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/js/plugins/ztree/dist/font-awesome-zTree.css">
+
 </head>
 <body id="body" style="height:100%;width: 100%;padding:0;margin: 0;">
 <input type="text" id="path" hidden="hidden" value="${pageContext.request.contextPath}">
@@ -45,16 +49,6 @@
         </form>
     </blockquote>
 
-    <%--按钮条--%>
-    <%--<blockquote id="buttonQuoto" style="margin-top: 5px;" class="layui-elem-quote elem-quote-ex">--%>
-        <%--<button style="margin-left: 10px;" class="layui-btn layui-btn-sm" onclick="openCreateWindow()"><i--%>
-                <%--class="layui-icon">&#xe608;</i>新增角色--%>
-        <%--</button>--%>
-        <%--<button style="margin-left: 10px; " class="layui-btn layui-btn-danger layui-btn-sm" onclick="batchDel()">--%>
-            <%--<i class="layui-icon">&#xe640;</i> 批量删除--%>
-        <%--</button>--%>
-    <%--</blockquote>--%>
-
     <%--数据表格--%>
     <table class="layui-hide" id="layMenu" lay-data="{id: 'idMenu'}" lay-filter="roleFilter"></table>
 
@@ -67,30 +61,28 @@
             系统角色: 角色具有不同的功能权限等等。
         </blockquote>
         <fieldset class="layui-elem-field" style="width: 830px;margin-left: 8px;">
-            <legend style="margin: 0px;padding: 0px;">填写角色信息</legend>
-            <div class="layui-field-box">
-
-
-
-
-
-
-
-
-            </div>
+             <ul id="tree" class="ztree" style="height: 460px;overflow: scroll"></ul>
+            <form>
+                <div class="layui-form-item form-item-ex" style="text-align: center;">
+                    <div class="layui-inline">
+                        <div class="layui-input-inline input-line-ex line-button-ex">
+                            <a class="layui-btn  layui-btn-sm"  href="javascript:void(0);" onclick="saveRoleMenu()" >保存</a>
+                            <button type="reset" class="layui-btn layui-btn-primary  layui-btn-sm" style="margin-left: 70px;">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </fieldset>
     </div>
-
 </div>
 
 <%--操作模版--%>
 <script type="text/html" id="barOption">
     <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i>设置菜单</a>
-    <%--<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon">&#xe640;</i>删除</a>--%>
 </script>
 
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/css/treeview/bootstrap-treeview.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/plugins/ztree/dist/jquery.ztree.all-3.5.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/layui/layui.js"></script>
 <script src="${pageContext.request.contextPath}/js/sys/sys_role_menu.js"></script>
 </body>

@@ -6,6 +6,7 @@ import com.yph.common.result.CommonResult;
 import com.yph.entity.sys.SysMenu;
 import com.yph.entity.sys.vo.SysMenuVo;
 import com.yph.entity.tree.TreeVo;
+import com.yph.entity.tree.ZtreeVo;
 import com.yph.service.sys.ISysMenuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,6 +136,18 @@ public class SysMenuController {
         return CommonResult.SUCCESS();
     }
 
+
+    /**
+     *  获取菜单列表  ztree
+     * @param params
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("findListByZtree")
+    public CommonResult findListByZtree(@RequestParam HashMap<String,Object> params){
+      List<ZtreeVo> list  =sysMenuService.findListByZtree(params);
+      return CommonResult.SUCCESS(list);
+    }
 
 
 

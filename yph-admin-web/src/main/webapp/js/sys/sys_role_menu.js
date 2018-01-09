@@ -10,6 +10,8 @@ var batchDel = null;
 
 var formSearch = null;
 
+var saveRoleMenu =null;
+
 layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function () {
 
     var laydate = layui.laydate //日期
@@ -20,10 +22,10 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
         , element = layui.element; //元素操作
 
 
-
-
     // 项目路径
     var serverPath = $('#path').val();
+
+    var selectMenusList = [];
 
     // 设置表格宽高
     var bodyWidth = $('#body')[0].offsetWidth;
@@ -88,6 +90,55 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
             }
         });
     }
+
+    /**
+     *  获取树形设置
+     */
+    var getZtreeSetting =function (roleId) {
+        // ztree 设置
+        var setting = {
+            // 异步请求
+            async: {
+                enable: true,
+                url: serverPath + '/sys/menu/findListByZtree.htm?roleId='+roleId,
+                autoParam: ["id"],
+                // otherParam:["roleId",selectRoleId],
+                dataFilter: datasFilter,
+                type: 'post'
+            },
+            check: {
+                enable: true,
+                chkStyle: "checkbox",
+                chkboxType: {"Y": "ps", "N": "ps"}
+            }
+        };
+        return setting;
+    }
+
+    /**
+     *   树表返回数据 进行拼装渲染
+     * @param treeId
+     * @param parentNode
+     * @param childNodes
+     * @returns {null}
+     */
+    function datasFilter(treeId, parentNode, childNodes) {
+        if (childNodes.code == '0') {
+            if (childNodes.data.length < 1) {
+                layer.msg('没有下级的菜单啦~~~');
+                return null;
+            }
+
+            for(var i=0;i<childNodes.data.length;i++){
+                selectMenusList.push(childNodes.data[i]);
+            }
+            return childNodes.data;
+        } else {
+            layer.msg('获取下级菜单失败!');
+        }
+    }
+
+
 
 
     /**
@@ -167,10 +218,13 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
      * @param data
      */
     var openEditWindow = function (data) {
+
+        selectMenusList =[];
+
+        var setting = getZtreeSetting(data.id);
         // 数据回显
-        $('#roleName')[0].value = data.roleName;
-        $('#remark')[0].value = data.remark;
-        $('#roleId')[0].value = data.id;
+        $.fn.zTree.init($("#tree"), setting);
+
         layer.open({
             type: 1,
             title: ['修改角色', 'font-size:18px;'],
@@ -180,12 +234,10 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
             offset: '100px',
             scrollbar: false,
             resize: false,
-            area: ['850px', '300px'],
+            area: ['850px', '660px'],
             content: $('#createWindow'),
             end: function () {
-                $('#roleName')[0].value = '';
-                $('#remark')[0].value = '';
-                $('#roleId')[0].value = '';
+
             }
         });
     }
@@ -197,6 +249,8 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
         saveSysRole(data.field);
         return false;
     });
+
+
 
 
     /**
@@ -226,6 +280,40 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
     formSearch = function () {
         getTableList();
     }
+
+    /**
+     *  保存角色权限
+     */
+    saveRoleMenu =function () {
+        // var treeObj = $.fn.zTree.getZTreeObj("tree");
+        // var nodes = treeObj.getNodes();
+
+        // 获取当前被勾选的节点集合
+        var treeObj1 = $.fn.zTree.getZTreeObj("tree");
+        var newSelectMenuList = treeObj1.getCheckedNodes(true);
+
+        for(var i=0;i<selectMenusList.length;i++){
+            for(var j=0;j<newSelectMenuList.length;j++){
+
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
 
     /*****************************************  END   【  以上是lay组件初始化   】 *****************************************/
 
@@ -292,9 +380,6 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
     }
 
 
-
-
-
     /**
      *  删除系统角色
      */
@@ -339,6 +424,22 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
             }
         });
     }
+
+    /**
+     *  获取菜单树形
+     */
+    var getMenuListTree = function () {
+        $.post(serverPath + "/sys/menu/findAllMenu2TreeList.htm", function (data) {
+            var retObj = JSON.parse(data);
+            if (retObj.code == '0') {
+                // initTree(retObj.data);
+            } else {
+                // do something
+            }
+        });
+    }
+
+
 
 
     init();

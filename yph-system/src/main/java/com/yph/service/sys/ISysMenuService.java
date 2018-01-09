@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.yph.entity.sys.SysMenu;
 import com.yph.entity.sys.vo.SysMenuVo;
 import com.yph.entity.tree.TreeVo;
+import com.yph.entity.tree.ZtreeVo;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,4 +35,5 @@ public interface ISysMenuService {
 
     int batchDelSysMenuByIds(List<Long> list);
 
+    List<ZtreeVo> findListByZtree(HashMap<String, Object> params);
 }

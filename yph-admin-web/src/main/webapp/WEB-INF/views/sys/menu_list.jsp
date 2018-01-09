@@ -10,9 +10,10 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/js/plugins/font-awesome/css/font-awesome.min.css"
           media="all">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layex/lay-ex.css" media="all">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" media="all">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/treeview/bootstrap-treeview.min.css"
-          media="all">
+    <%--ztree 插件--%>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/js/plugins/ztree/assets/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/js/plugins/ztree/dist/zTreeStyle.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/js/plugins/ztree/dist/font-awesome-zTree.css">
 </head>
 <body style="height:100%;width: 100%;padding:0;margin: 0;overflow: hidden">
 <input type="text" id="path" hidden="hidden" value="${pageContext.request.contextPath}">
@@ -73,7 +74,7 @@
 </div>
 
 <%--新建菜单 弹出框--%>
-<div id="createMenuWindow" hidden="hidden" style="overflow: hidden">
+<div id="createMenuWindow" hidden="hidden" >
     <blockquote class="layui-elem-quote" style="margin-top: 5px;">
       系统菜单 : 增添系统的功能喔!
     </blockquote>
@@ -167,7 +168,7 @@
 </script>
 
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/css/treeview/bootstrap-treeview.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/plugins/ztree/dist/jquery.ztree.all-3.5.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/layui/layui.js"></script>
 <script src="${pageContext.request.contextPath}/js/sys/menu_list.js"></script>
 </body>

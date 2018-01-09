@@ -105,6 +105,19 @@
         order by create_time desc
     </select>
 
+    <!--获取数据 ztree -->
+    <select id="findListByZtree" resultType="com.yph.entity.tree.ZtreeVo" parameterType="map">
+          SELECT m.id as id, m.name as name,m.type as type, m.parent_id as parentId,
+            if(EXISTS
+                ( SELECT rm.id FROM sys_role_menu rm WHERE rm.role_id = 1 AND m.id = rm.menu_id
+                  and rm.role_id = #{roleId,jdbcType=BIGINT} ),
+                'true',
+                'false'
+            ) AS 'checked'
+            FROM
+            sys_menu m where 1=1 and  m.parent_id= #{parentId,jdbcType=BIGINT}
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
       update sys_menu set flag ='1' where id = #{id,jdbcType=BIGINT}
   </delete>

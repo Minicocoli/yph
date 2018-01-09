@@ -6,9 +6,12 @@ import com.yph.entity.sys.SysMenu;
 import com.yph.entity.sys.SysUserRole;
 import com.yph.entity.sys.vo.SysMenuVo;
 import com.yph.entity.tree.TreeVo;
+import com.yph.entity.tree.ZtreeVo;
 import com.yph.mapper.sys.SysMenuMapper;
-import com.yph.mapper.sys.SysUserRoleMapper;
 import com.yph.service.sys.ISysMenuService;
+import com.yph.service.sys.ISysRoleService;
+import com.yph.service.sys.ISysUserRoleService;
+import com.yph.utils.ShiroUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +34,8 @@ public class SysMenuServiceImpl implements ISysMenuService {
 
     @Autowired
     private SysMenuMapper sysMenuMapper;
-
+    @Autowired
+    private ISysUserRoleService sysUserRoleService;
     /**
      *  保存菜单
      * @param sysMenu
@@ -213,6 +217,23 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @Override
     public int batchDelSysMenuByIds(List<Long> list) {
        return sysMenuMapper.batchDelSysMenuByIds(list);
+    }
+
+    /**
+     *  获取ztree 数据
+     * @param parentId
+     * @return
+     */
+    @Override
+    public List<ZtreeVo> findListByZtree(HashMap<String, Object> params) {
+        Long parentId = null;
+        if(params.get("id")==null){
+            parentId = 0L;
+        }else{
+            parentId =  Long.valueOf(params.get("id")+"");
+        }
+        params.put("parentId",parentId);
+        return sysMenuMapper.findListByZtree(params);
     }
 
 }
