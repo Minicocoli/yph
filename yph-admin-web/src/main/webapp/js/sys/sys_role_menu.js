@@ -129,8 +129,11 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
                 return null;
             }
 
+            // 将选择了的放进去 数组装起来
             for(var i=0;i<childNodes.data.length;i++){
-                selectMenusList.push(childNodes.data[i]);
+                if(childNodes[i].checked=='true'){
+                    selectMenusList.push(childNodes.data[i]);
+                }
             }
             return childNodes.data;
         } else {
@@ -292,11 +295,23 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
         var treeObj1 = $.fn.zTree.getZTreeObj("tree");
         var newSelectMenuList = treeObj1.getCheckedNodes(true);
 
-        for(var i=0;i<selectMenusList.length;i++){
-            for(var j=0;j<newSelectMenuList.length;j++){
+        // 1、新增的菜单选项
+        var addMenuList = [];
+        // 2、移除的菜单选项
+        var removeMenuList = [];
 
-            }
-        }
+
+
+
+
+
+
+        //
+        // for(var i=0;i<selectMenusList.length;i++){
+        //     for(var j=0;j<newSelectMenuList.length;j++){
+        //
+        //     }
+        // }
 
 
 
