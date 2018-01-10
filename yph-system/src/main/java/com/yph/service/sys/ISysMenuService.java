@@ -5,6 +5,7 @@ import com.yph.entity.sys.SysMenu;
 import com.yph.entity.sys.vo.SysMenuVo;
 import com.yph.entity.tree.TreeVo;
 import com.yph.entity.tree.ZtreeVo;
+import io.swagger.models.auth.In;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +32,7 @@ public interface ISysMenuService {
     int delSysMenuById(Long id);
 
 
-    List<SysMenu> findSysMenuListByType(int type);
+    List<SysMenu> findSysMenuListByType(Integer type);
 
     int batchDelSysMenuByIds(List<Long> list);
 

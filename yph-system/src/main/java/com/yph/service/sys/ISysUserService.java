@@ -44,6 +44,6 @@ public interface ISysUserService {
      * @param params
      * @return
      */
-    PageInfo findSysUserList(HashMap<String, Object> params);
+    PageInfo findSysUserListByPage(HashMap<String, Object> params,int pageNum,int pageSize);
 
 }

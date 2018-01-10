@@ -11,14 +11,25 @@
             http://www.springframework.org/schema/aop/spring-aop-3.1.xsd"
        default-lazy-init="true">
 
-    <!--开启注解-->
-    <!--<context:annotation-config/>-->
+    <import resource="spring-shrio.xml"/>
 
     <!--全局异常捕获-->
     <bean class="com.yph.common.resolver.GlobalException"></bean>
 
     <!-- 配置读取外部配置文件 -->
-    <context:property-placeholder location="classpath:config/jdbc.properties"/>
+    <!--<context:property-placeholder location="classpath:config/jdbc.properties" ignore-unresolvable="true"/>-->
+    <!-- 将多个配置文件读取到容器中，交给Spring管理 -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <!-- 这里支持多种寻址方式：classpath和file -->
+                <value>classpath:config/jdbc.properties</value>
+                <value>classpath:config/redis.properties</value>
+            </list>
+        </property>
+    </bean>
+
+
 
     <!-- 配置数据源 Druid连接池 -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"

@@ -3,6 +3,7 @@ package com.yph.service.sys;
 import com.yph.entity.sys.SysRoleMenu;
 import com.yph.entity.sys.vo.SysRoleMenuVo;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -40,4 +41,5 @@ public interface ISysRoleMenuService {
      */
     List<SysRoleMenuVo> findRoleMenuList(Long roleId);
 
+    int updateRoleMenuByList(HashMap<String, Object> params);
 }

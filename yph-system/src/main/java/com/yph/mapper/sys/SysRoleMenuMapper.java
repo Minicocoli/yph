@@ -19,4 +19,6 @@ public interface SysRoleMenuMapper {
     int updateByPrimaryKey(SysRoleMenu record);
 
     List<SysRoleMenuVo> findRoleMenuList(Long roleId);
+
+    int delSysRoleMenuByMenuId(SysRoleMenu sysRoleMenu);
 }

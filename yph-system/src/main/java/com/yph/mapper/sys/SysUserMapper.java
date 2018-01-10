@@ -22,5 +22,5 @@ public interface SysUserMapper {
 
     SysUser findUserByNameAndPassword(SysUser user);
 
-    List<SysUserVo> findSysUserList(HashMap<String, Object> params);
+    List<SysUserVo> findSysUserListByPage(HashMap<String, Object> params);
 }

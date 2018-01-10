@@ -1,6 +1,7 @@
 package com.yph.controller.sys;
 
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -21,7 +22,7 @@ public class SysViewController {
      */
     @RequestMapping("eidtSysMenuView")
     public String eidtSysMenuView(){
-        return "sys/menu_list";
+        return "sys/sys_menu_list";
     }
 
     /**
@@ -51,6 +52,14 @@ public class SysViewController {
         return "sys/sys_role_menu";
     }
 
+    /**
+     *  跳转到用户列表
+     * @return
+     */
+    @RequestMapping("toSysUserView")
+    public String toSysUserView(){
+        return "sys/sys_user_list";
+    }
 
 
 }

@@ -14,6 +14,9 @@ import com.yph.service.sys.ISysUserRoleService;
 import com.yph.utils.ShiroUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +33,7 @@ import java.util.List;
 @Slf4j
 @Service
 @Transactional
+@CacheConfig(cacheNames="sysMenu")
 public class SysMenuServiceImpl implements ISysMenuService {
 
     @Autowired
@@ -77,6 +81,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @return
      */
     @Override
+    @Cacheable(key="#sysMenu.getType()")
     public List<SysMenuVo> findSysMenuList(SysMenu sysMenu) {
         return sysMenuMapper.findSysMenuList(sysMenu);
     }
@@ -86,6 +91,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @return
      */
     @Override
+    @Cacheable(key = "all_")
     public List<SysMenuVo> findAllSysMenuList() {
         List<SysMenuVo> list = new ArrayList<>();
         SysMenu sysMenu = new SysMenu();
@@ -207,7 +213,8 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @return
      */
     @Override
-    public List<SysMenu> findSysMenuListByType(int type) {
+    @Cacheable(value ="sysMenuType",key="#type")
+    public List<SysMenu> findSysMenuListByType(Integer type) {
         HashMap<String, Object> params = new HashMap<>();
         params.put("type",type);
         List<SysMenu> list = sysMenuMapper.findSysMenuListByParams(params);
@@ -221,16 +228,22 @@ public class SysMenuServiceImpl implements ISysMenuService {
 
     /**
      *  获取ztree 数据
-     * @param parentId
+     * @param params
      * @return
      */
     @Override
     public List<ZtreeVo> findListByZtree(HashMap<String, Object> params) {
         Long parentId = null;
+        Long roleId = null;
         if(params.get("id")==null){
             parentId = 0L;
         }else{
             parentId =  Long.valueOf(params.get("id")+"");
+        }
+
+        if(params.get("roleId")==null){
+            SysUserRole sysUserRole = sysUserRoleService.findSysUserRoleByUserId(ShiroUtils.getUserId());
+            roleId = sysUserRole.getRoleId();
         }
         params.put("parentId",parentId);
         return sysMenuMapper.findListByZtree(params);

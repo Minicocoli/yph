@@ -109,8 +109,8 @@
     <select id="findListByZtree" resultType="com.yph.entity.tree.ZtreeVo" parameterType="map">
           SELECT m.id as id, m.name as name,m.type as type, m.parent_id as parentId,
             if(EXISTS
-                ( SELECT rm.id FROM sys_role_menu rm WHERE rm.role_id = 1 AND m.id = rm.menu_id
-                  and rm.role_id = #{roleId,jdbcType=BIGINT} ),
+                ( SELECT rm.id FROM sys_role_menu rm WHERE  m.id = rm.menu_id
+                  and rm.role_id = #{roleId,jdbcType=BIGINT} and rm.flag='0'),
                 'true',
                 'false'
             ) AS 'checked'

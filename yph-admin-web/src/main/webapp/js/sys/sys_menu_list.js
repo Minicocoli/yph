@@ -29,9 +29,8 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
     var contentWidth = $('#content')[0].offsetWidth;
     var contentHeight = $('#content')[0].offsetHeight;
     var tableWidth = contentWidth - 265;
-    var tableHeight = contentHeight - 200;
-    $('#menuTree')[0].style.height = contentHeight + 'px';
-    $('#buttonQuoto')[0].style.width = tableWidth + 'px';
+    var tableHeight = contentHeight - 180;
+    $('#tree')[0].style.height = contentHeight + 'px';
     $('#buttonQuoto')[0].style.width = tableWidth + 'px';
 
     /**
@@ -81,15 +80,9 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
         });
     }
 
-    /**
-     *  初始化 树
-     * @param treeData
-     */
-    var initTree = function (treeData) {
-        $('#menuTree').treeview({data: treeData});
-    }
 
     var isPaging = false;
+
     /**
      *  分页对象
      * @type {{count: null, limit: null, limits: null, curr: null}}
@@ -292,6 +285,11 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
         $('#menuType').html(htm);
         form.render('select');
         // 回显上级菜单
+        // 先读取缓存
+        type =parseInt(type);
+        if(type>0){
+            type = type -1;
+        }
         findMenuByType(type ,true,parentId);
     }
 
@@ -300,9 +298,9 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
      * @param list
      */
     var renderParentMenu = function (list,parentId) {
-        var parentMenuHtm = '请选择上级菜单';
+        var parentMenuHtm = '<option value="">请选择上级菜单</option>';
         for (var i = 0; i < list.length; i++) {
-            if(list[i].parentId == parentId){
+            if(list[i].id == parentId){
                 parentMenuHtm =parentMenuHtm +'<option value="' + list[i].id + '" selected="" >' + list[i].name + '</option>';
             }else{
                 parentMenuHtm =parentMenuHtm +'<option value="' + list[i].id + '" >' + list[i].name + '</option>';
@@ -328,24 +326,55 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
 
         initPgae();
 
-        getMenuListTree();
-
         getMenuListPage();
+
+        initTree();
 
     }
 
     /**
-     *  获取菜单树形
+     *  初始化树
      */
-    var getMenuListTree = function () {
-        $.post(serverPath + "/sys/menu/findAllMenu2TreeList.htm", function (data) {
-            var retObj = JSON.parse(data);
-            if (retObj.code == '0') {
-                initTree(retObj.data);
-            } else {
-                // do something
+    var initTree =function () {
+        // ztree 设置
+        var setting = {
+            // 异步请求
+            async: {
+                enable: true,
+                url: serverPath + '/sys/menu/findListByZtree.htm',
+                autoParam: ["id"],
+                // otherParam:["roleId",selectRoleId],
+                dataFilter: datasFilter,
+                type: 'post'
             }
-        });
+        };
+        $.fn.zTree.init($("#tree"), setting);
+    }
+
+    /**
+     *   树表返回数据 进行拼装渲染
+     * @param treeId
+     * @param parentNode
+     * @param childNodes
+     * @returns {null}
+     */
+    function datasFilter(treeId, parentNode, childNodes) {
+        if (childNodes.code == '0') {
+            if (childNodes.data.length < 1) {
+                layer.msg('没有下级的菜单啦~~~');
+                return null;
+            }
+
+            // 将选择了的放进去 数组装起来
+            for(var i=0;i<childNodes.data.length;i++){
+                if(childNodes.data[i].checked=='true'){
+                    selectMenusList.push(childNodes.data[i]);
+                }
+            }
+            return childNodes.data;
+        } else {
+            layer.msg('获取下级菜单失败!');
+        }
     }
 
 
@@ -365,6 +394,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
                 initMenuTable(retObj.data.list);
                 page.count = retObj.data.total;
                 initPgae();
+                initTree();
                 isPaging = false;
                 layer.closeAll();
             } else {
@@ -421,7 +451,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
      * @param type
      */
     var findMenuByType = function (type,isEdit,parentId) {
-        // 先读取缓存
+
         var list = sessionStorage.getItem('menu_' + type);
         if (list != null) {
             list = JSON.parse(list);

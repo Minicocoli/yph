@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yph.mapper.sys.SysRoleMenuMapper">
-  <resultMap id="BaseResultMap" type="com.yph.entity.sys.SysRoleMenu">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="role_id" jdbcType="BIGINT" property="roleId" />
-    <result column="menu_id" jdbcType="BIGINT" property="menuId" />
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.yph.entity.sys.SysRoleMenu">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="role_id" jdbcType="BIGINT" property="roleId"/>
+        <result column="menu_id" jdbcType="BIGINT" property="menuId"/>
+        <result column="flag" jdbcType="TINYINT" property="flag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, role_id, menu_id
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from sys_role_menu
-    where id = #{id,jdbcType=BIGINT}
-  </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role_menu
+        where id = #{id,jdbcType=BIGINT}
+    </select>
 
     <!--通过角色Id 获取角色菜单-->
     <select id="findRoleMenuList" resultType="com.yph.entity.sys.vo.SysRoleMenuVo">
-        SELECT
-
 
     </select>
 
@@ -27,53 +27,74 @@
     delete from sys_role_menu
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.yph.entity.sys.SysRoleMenu">
-    insert into sys_role_menu (id, role_id, menu_id
+
+
+    <insert id="insert" parameterType="com.yph.entity.sys.SysRoleMenu">
+    insert into sys_role_menu (id, role_id, menu_id,flag
       )
-    values (#{id,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, #{menuId,jdbcType=BIGINT}
+    values (#{id,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, #{menuId,jdbcType=BIGINT},#{flag,jdbcType=TINYINT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.yph.entity.sys.SysRoleMenu">
-    insert into sys_role_menu
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="roleId != null">
-        role_id,
-      </if>
-      <if test="menuId != null">
-        menu_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="roleId != null">
-        #{roleId,jdbcType=BIGINT},
-      </if>
-      <if test="menuId != null">
-        #{menuId,jdbcType=BIGINT},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.yph.entity.sys.SysRoleMenu">
-    update sys_role_menu
-    <set>
-      <if test="roleId != null">
-        role_id = #{roleId,jdbcType=BIGINT},
-      </if>
-      <if test="menuId != null">
-        menu_id = #{menuId,jdbcType=BIGINT},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
+
+    <insert id="insertSelective" parameterType="com.yph.entity.sys.SysRoleMenu">
+        insert into sys_role_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="roleId != null">
+                role_id,
+            </if>
+            <if test="menuId != null">
+                menu_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="roleId != null">
+                #{roleId,jdbcType=BIGINT},
+            </if>
+            <if test="menuId != null">
+                #{menuId,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.yph.entity.sys.SysRoleMenu">
+        update sys_role_menu
+        <set>
+            <if test="roleId != null">
+                role_id = #{roleId,jdbcType=BIGINT},
+            </if>
+            <if test="menuId != null">
+                menu_id = #{menuId,jdbcType=BIGINT},
+            </if>
+            <if test="flag != null">
+                flag = #{flag,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+
+
+
+
+
+    <update id="updateByPrimaryKey" parameterType="com.yph.entity.sys.SysRoleMenu">
+        update sys_role_menu
+        set role_id = #{roleId,jdbcType=BIGINT},
+          menu_id = #{menuId,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.yph.entity.sys.SysRoleMenu">
-    update sys_role_menu
-    set role_id = #{roleId,jdbcType=BIGINT},
-      menu_id = #{menuId,jdbcType=BIGINT}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+
+    <!--更新角色菜单-->
+    <update id="delSysRoleMenuByMenuId" parameterType="com.yph.entity.sys.SysRoleMenu">
+        Update sys_role_menu
+        set flag ='1'  where role_id = #{roleId,jdbcType=BIGINT} and
+             menu_id = #{menuId,jdbcType=BIGINT}
+    </update>
+
 </mapper>

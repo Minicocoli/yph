@@ -13,7 +13,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-    id, user_name, password, email, mobile, status, create_user_id, create_time
+      id, user_name, password, email, mobile, status, create_user_id, create_time
     </sql>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -143,9 +143,30 @@
 
 
     <!--查询用户信息列表-->
-    <select id="findSysUserList" resultType="com.yph.entity.sys.vo.SysUserVo">
-
+    <select id="findSysUserListByPage" resultType="com.yph.entity.sys.vo.SysUserVo" parameterType="map">
+        SELECT <include refid="Base_Column_List"/>
+        FROM sys_user where flag ='0'
+            <if test="userName != null">
+              AND  user_name = #{userName,jdbcType=VARCHAR}
+            </if>
+            <if test="password != null">
+                AND  password = #{password,jdbcType=VARCHAR}
+            </if>
+            <if test="email != null">
+                AND  email = #{email,jdbcType=VARCHAR}
+            </if>
+            <if test="mobile != null">
+                AND  mobile = #{mobile,jdbcType=VARCHAR}
+            </if>
+            <if test="status != null">
+                AND  status = #{status,jdbcType=TINYINT}
+            </if>
+            <if test="createUserId != null">
+                AND  create_user_id = #{createUserId,jdbcType=BIGINT}
+            </if>
+            <if test="createTime != null and createTime!='' ">
+                AND   create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
     </select>
-
 
 </mapper>
