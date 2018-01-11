@@ -32,7 +32,7 @@ public interface ISysMenuService {
     int delSysMenuById(Long id);
 
 
-    List<SysMenu> findSysMenuListByType(Integer type);
+    List<SysMenu> findSysMenuListByType(Integer type,Long parentId);
 
     int batchDelSysMenuByIds(List<Long> list);
 

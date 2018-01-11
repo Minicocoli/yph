@@ -229,7 +229,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @return
      */
     @Override
-    public List<SysMenu> findSysMenuListByType(Integer type) {
+    public List<SysMenu> findSysMenuListByType(Integer type,Long parentId) {
 
         String key = SysMenuServiceImpl.LIST_KEY+"type:"+type;
 
@@ -243,6 +243,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
             log.info(" [ 获取菜单类型 ----->  数据库获取   type : {}  ] ",type);
             HashMap<String, Object> params = new HashMap<>();
             params.put("type",type);
+            params.put("parentId",parentId);
             list = sysMenuMapper.findSysMenuListByParams(params);
             redisService.addList(key,list);
             return list;
