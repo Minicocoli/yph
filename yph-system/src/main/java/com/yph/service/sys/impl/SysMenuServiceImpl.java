@@ -2,8 +2,7 @@ package com.yph.service.sys.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.yph.common.cache.RedisHandle;
-import com.yph.common.cache.RedisUtil;
+import com.yph.common.cache.IRedisService;
 import com.yph.entity.sys.SysMenu;
 import com.yph.entity.sys.SysUserRole;
 import com.yph.entity.sys.vo.SysMenuVo;
@@ -11,14 +10,10 @@ import com.yph.entity.tree.TreeVo;
 import com.yph.entity.tree.ZtreeVo;
 import com.yph.mapper.sys.SysMenuMapper;
 import com.yph.service.sys.ISysMenuService;
-import com.yph.service.sys.ISysRoleService;
 import com.yph.service.sys.ISysUserRoleService;
 import com.yph.utils.ShiroUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,7 +44,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     private ISysUserRoleService sysUserRoleService;
 
     @Autowired
-    private RedisUtil redisUtil;
+    private IRedisService redisService;
 
     /**
      *  保存菜单
@@ -68,7 +63,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
         if(sysMenuId>0){
             // 缓存到缓存中。。
             sysMenu.setId(sysMenuId);
-            redisUtil.set(SysMenuServiceImpl.ONE_KEY,sysMenu);
+            redisService.set(SysMenuServiceImpl.ONE_KEY+"sysMenusId :"+sysMenuId,sysMenu);
         }
         return sysMenuId;
     }
@@ -82,7 +77,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     public int updateSysMenu(SysMenu sysMenu) {
         int result= sysMenuMapper.updateByPrimaryKeySelective(sysMenu);
         if(result>0){
-            redisUtil.remove(SysMenuServiceImpl.ONE_KEY);
+            redisService.remove(SysMenuServiceImpl.ONE_KEY);
         }
         return result;
     }
@@ -214,6 +209,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @Override
     public PageInfo findMenuListByPage(HashMap<String, Object> params, int pageNum, int pageSize ) {
         PageHelper.startPage(pageNum,pageSize);
+        PageHelper.orderBy(" id desc");
         List<SysMenu> list = sysMenuMapper.findMenuListByPage(params);
         return new PageInfo(list);
     }
@@ -235,14 +231,20 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @Override
     public List<SysMenu> findSysMenuListByType(Integer type) {
 
-        List<SysMenu> cacheList = (List<SysMenu>) redisUtil.getList("menu_" + type);
-        if(cacheList!=null){
-            return  cacheList;
+        String key = SysMenuServiceImpl.LIST_KEY+"type:"+type;
+
+        boolean exists = redisService.exists(key);
+        List<SysMenu> list =null;
+        if(exists){
+            log.info(" [ 获取菜单类型 ----->  缓存中获取   type : {}  ] ",type);
+            list = (List<SysMenu>) redisService.getList("menu_" + type);
+            return  list;
         }else{
+            log.info(" [ 获取菜单类型 ----->  数据库获取   type : {}  ] ",type);
             HashMap<String, Object> params = new HashMap<>();
             params.put("type",type);
-            List<SysMenu> list = sysMenuMapper.findSysMenuListByParams(params);
-            redisUtil.addList("menu_"+type,list);
+            list = sysMenuMapper.findSysMenuListByParams(params);
+            redisService.addList(key,list);
             return list;
         }
     }
@@ -275,15 +277,16 @@ public class SysMenuServiceImpl implements ISysMenuService {
         params.put("parentId",parentId);
 
         String key = SysMenuServiceImpl.LIST_KEY + "roleId:"+roleId + "#parentId:" + parentId;
-        boolean exists = redisUtil.exists(key);
+
+        boolean exists = redisService.exists(key);
         if(exists){
-            list= redisUtil.getList(key);
+            list= redisService.getList(key);
             log.info("[ 获取ztree 树  缓存查询 -----> parentId : {}  roleId --->{} ]",parentId,roleId);
             return  list;
         }else{
             list = sysMenuMapper.findListByZtree(params);
             log.info("[ 获取ztree 树  数据库查询  -----> parentId : {}  roleId --->{} ]",parentId,roleId);
-            redisUtil.addList(key,list);
+            redisService.addList(key,list);
             return list;
         }
     }

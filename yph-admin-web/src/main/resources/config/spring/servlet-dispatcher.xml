@@ -61,11 +61,11 @@
     -->
     <mvc:interceptors>
         <!--请求拦截: 输出请求地址 方法 参数-->
-        <!--<bean class="com.yph.common.interceptor.RequestInterceptor"/>-->
-        <mvc:interceptor>
-            <mvc:mapping path="/*.htm"/>
-            <bean class="com.yph.common.interceptor.RequestInterceptor"/>
-        </mvc:interceptor>
+        <bean class="com.yph.common.interceptor.RequestInterceptor"/>
+        <!--<mvc:interceptor>-->
+            <!--<mvc:mapping path="*.htm"/>-->
+            <!--<bean class="com.yph.common.interceptor.RequestInterceptor"/>-->
+        <!--</mvc:interceptor>-->
     </mvc:interceptors>
 
     <!--视图解析器-->
