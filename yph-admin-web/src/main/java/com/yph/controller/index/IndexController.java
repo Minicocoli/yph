@@ -68,11 +68,13 @@ public class IndexController {
 //            log.info("[ 菜单从 request 域获取 ]");
 //            return "begin";
 //        }
+        HttpSession session = request.getSession();
         SysUser sysUser = ShiroUtils.getUser();
         SysUserRole sysUserRole = sysUserRoleService.findSysUserRoleByUserId(sysUser.getId());
-        List<SysMenuVo> sysMenuList = sysMenuService.findSysMenuListByRole(sysUserRole.getRoleId());
-        HttpSession session = request.getSession();
-        session.setAttribute("menuList",sysMenuList);
+        if(sysUserRole!=null){
+            List<SysMenuVo> sysMenuList = sysMenuService.findSysMenuListByRole(sysUserRole.getRoleId());
+            session.setAttribute("menuList",sysMenuList);
+        }
         session.setAttribute("user",sysUser);
         return "begin";
     }

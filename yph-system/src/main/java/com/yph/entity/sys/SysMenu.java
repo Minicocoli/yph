@@ -8,6 +8,8 @@ import java.util.Date;
 @Data
 public class SysMenu implements Serializable {
 
+    public static final String key = "SYS_MENU_";
+
     /**
      *  Id
      */

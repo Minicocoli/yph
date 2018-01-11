@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import com.yph.entity.sys.SysMenu;
 import com.yph.entity.sys.vo.SysMenuVo;
 import com.yph.entity.tree.TreeVo;
+import com.yph.entity.tree.ZtreeVo;
+import io.swagger.models.auth.In;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +13,7 @@ import java.util.List;
 public interface ISysMenuService {
 
 
-    int saveSysMenu(SysMenu sysMenu);
+    Long saveSysMenu(SysMenu sysMenu);
 
     int updateSysMenu(SysMenu sysMenu);
 
@@ -30,8 +32,9 @@ public interface ISysMenuService {
     int delSysMenuById(Long id);
 
 
-    List<SysMenu> findSysMenuListByType(int type);
+    List<SysMenu> findSysMenuListByType(Integer type);
 
     int batchDelSysMenuByIds(List<Long> list);
 
+    List<ZtreeVo> findListByZtree(HashMap<String, Object> params);
 }

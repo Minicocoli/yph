@@ -10,6 +10,8 @@ var batchDel = null;
 
 var formSearch = null;
 
+var saveRoleMenu =null;
+
 layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function () {
 
     var laydate = layui.laydate //日期
@@ -20,10 +22,12 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
         , element = layui.element; //元素操作
 
 
-
-
     // 项目路径
     var serverPath = $('#path').val();
+
+    var selectMenusList = [];
+
+    var selectRoleId = null;
 
     // 设置表格宽高
     var bodyWidth = $('#body')[0].offsetWidth;
@@ -88,6 +92,58 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
             }
         });
     }
+
+    /**
+     *  获取树形设置
+     */
+    var getZtreeSetting =function (roleId) {
+        // ztree 设置
+        var setting = {
+            // 异步请求
+            async: {
+                enable: true,
+                url: serverPath + '/sys/menu/findListByZtree.htm?roleId='+roleId,
+                autoParam: ["id"],
+                // otherParam:["roleId",selectRoleId],
+                dataFilter: datasFilter,
+                type: 'post'
+            },
+            check: {
+                enable: true,
+                chkStyle: "checkbox",
+                chkboxType: {"Y": "ps", "N": "ps"}
+            }
+        };
+        return setting;
+    }
+
+    /**
+     *   树表返回数据 进行拼装渲染
+     * @param treeId
+     * @param parentNode
+     * @param childNodes
+     * @returns {null}
+     */
+    function datasFilter(treeId, parentNode, childNodes) {
+        if (childNodes.code == '0') {
+            if (childNodes.data.length < 1) {
+                layer.msg('没有下级的菜单啦~~~');
+                return null;
+            }
+
+            // 将选择了的放进去 数组装起来
+            for(var i=0;i<childNodes.data.length;i++){
+                if(childNodes.data[i].checked=='true'){
+                    selectMenusList.push(childNodes.data[i]);
+                }
+            }
+            return childNodes.data;
+        } else {
+            layer.msg('获取下级菜单失败!');
+        }
+    }
+
+
 
 
     /**
@@ -167,10 +223,13 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
      * @param data
      */
     var openEditWindow = function (data) {
+
+        selectMenusList =[];
+        selectRoleId = data.id;
+        var setting = getZtreeSetting(data.id);
         // 数据回显
-        $('#roleName')[0].value = data.roleName;
-        $('#remark')[0].value = data.remark;
-        $('#roleId')[0].value = data.id;
+        $.fn.zTree.init($("#tree"), setting);
+
         layer.open({
             type: 1,
             title: ['修改角色', 'font-size:18px;'],
@@ -180,12 +239,10 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
             offset: '100px',
             scrollbar: false,
             resize: false,
-            area: ['850px', '300px'],
+            area: ['850px', '660px'],
             content: $('#createWindow'),
             end: function () {
-                $('#roleName')[0].value = '';
-                $('#remark')[0].value = '';
-                $('#roleId')[0].value = '';
+
             }
         });
     }
@@ -197,7 +254,6 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
         saveSysRole(data.field);
         return false;
     });
-
 
     /**
      *  批量删除
@@ -226,6 +282,65 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
     formSearch = function () {
         getTableList();
     }
+
+    /**
+     *  保存角色权限
+     */
+    saveRoleMenu =function () {
+        // var treeObj = $.fn.zTree.getZTreeObj("tree");
+        // var nodes = treeObj.getNodes();
+
+        // 获取当前被勾选的节点集合
+        var treeObj1 = $.fn.zTree.getZTreeObj("tree");
+        var newSelectMenuList = treeObj1.getCheckedNodes(true);
+
+        // 1、新增的菜单选项
+        var addMenuList = [];
+        // 2、移除的菜单选项
+        var removeMenuList = [];
+        // 3、保留的菜单选项
+        var retainMenuList = [];
+        // 遍历 筛选出菜单。
+        var isHas = false;
+
+        // 筛选添加菜单
+        for(var i=0;i<newSelectMenuList.length;i++){
+            isHas = false;
+            for(var j=0;j<selectMenusList.length;j++){
+                if(newSelectMenuList[i].id == selectMenusList[j].id){
+                    retainMenuList.push(selectMenusList[j]);
+                    isHas = true;
+                    break;
+                }
+            }
+            if(!isHas){
+                // 如果没有相同的，则是新添加的。
+                addMenuList.push(newSelectMenuList[i].id);
+            }
+        }
+
+        // 获取移除菜单选择
+        for(var i=0;i<selectMenusList.length;i++){
+            isHas = false;
+            for(var j=0;j<retainMenuList.length;j++){
+                if(selectMenusList[i].id == retainMenuList[j].id){
+                    isHas = true;
+                    break;
+                }
+            }
+            if(!isHas){
+                removeMenuList.push(selectMenusList[i].id);
+            }
+        }
+
+        if(addMenuList.length<1 && removeMenuList.length<1){
+            layer.msg('亲 ! 亲选择要更新的菜单。 ');
+        }else{
+            // 更新角色菜单 --> 选项
+            updateRoleMenu(addMenuList,removeMenuList);
+        }
+    }
+
 
     /*****************************************  END   【  以上是lay组件初始化   】 *****************************************/
 
@@ -292,9 +407,6 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
     }
 
 
-
-
-
     /**
      *  删除系统角色
      */
@@ -340,6 +452,49 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
         });
     }
 
+    /**
+     *  获取菜单树形
+     */
+    var getMenuListTree = function () {
+        $.post(serverPath + "/sys/menu/findAllMenu2TreeList.htm", function (data) {
+            var retObj = JSON.parse(data);
+            if (retObj.code == '0') {
+                // initTree(retObj.data);
+            } else {
+                // do something
+            }
+        });
+    }
 
+
+    /**
+     *    更新角色菜单选择
+     * @param addMenuList       新添加的角色菜单选项。
+     * @param removeMenuList    移除的角色菜单选项。
+     */
+    var updateRoleMenu = function (addMenuList, removeMenuList) {
+        $.ajax({
+            type: "POST",
+            url: serverPath + "/sys/role/menu/updateRoleMenuByList.htm",
+            dataType: "json",
+            traditional: true,
+            data: {
+                addMenuList: addMenuList.toString(),
+                removeMenuList:removeMenuList.toString(),
+                roleId:selectRoleId
+            },
+            async: true,
+            success: function (data) {
+                if (data.code == '0') {
+                    layer.closeAll();
+                    layer.msg('更新成功!');
+                    getTableList();
+                }
+            },
+            error: function (e) {
+                layer.msg('更新失败!');
+            }
+        });
+    }
     init();
 });

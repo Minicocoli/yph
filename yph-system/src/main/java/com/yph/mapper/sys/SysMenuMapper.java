@@ -3,16 +3,21 @@ package com.yph.mapper.sys;
 import com.yph.entity.sys.SysMenu;
 import com.yph.entity.sys.vo.SysMenuVo;
 import com.yph.entity.tree.TreeVo;
+import com.yph.entity.tree.ZtreeVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ *
+ *  create by Hzhan 2018-01-09
+ */
 public interface SysMenuMapper {
 
     int deleteByPrimaryKey(Long id);
 
-    int insert(SysMenu record);
+    Long insert(SysMenu record);
 
     int insertSelective(SysMenu record);
 
@@ -33,5 +38,7 @@ public interface SysMenuMapper {
     List<SysMenu> findSysMenuListByParams(HashMap<String, Object> params);
 
     int batchDelSysMenuByIds(List<Long> list);
+
+    List<ZtreeVo> findListByZtree(HashMap<String, Object> params);
 
 }

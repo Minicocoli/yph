@@ -1,0 +1,38 @@
+
+pageHelper :
+
+   在查询语句前设置分页:
+            PageHelper.startPage(pageNum,pageSize);
+    在查询语句前设置排序:
+            PageHelper.orderBy("create_Time desc");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

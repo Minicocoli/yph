@@ -8,6 +8,8 @@ import com.yph.mapper.sys.SysUserMapper;
 import com.yph.service.sys.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,11 +76,9 @@ public class SysUserServiceImpl implements ISysUserService{
      * @return
      */
     @Override
-    public PageInfo findSysUserList(HashMap<String, Object> params) {
-        int pageNum = (int) params.get("pageNum");
-        int pageSize = (int) params.get("pageSize");
+    public PageInfo findSysUserListByPage(HashMap<String, Object> params, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<SysUserVo> list = sysUserMapper.findSysUserList(params);
+        List<SysUserVo> list = sysUserMapper.findSysUserListByPage(params);
         PageInfo pageInfo = new PageInfo(list);
         return pageInfo;
     }

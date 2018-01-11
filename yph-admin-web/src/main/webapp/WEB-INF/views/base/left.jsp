@@ -8,7 +8,7 @@
             <c:forEach items="${menuList}" var="navMenus">
                 <c:forEach items="${navMenus.menuList}" var="navParent">
                     <li class="layui-nav-item">
-                        <a class="" href="javascript:;"><i class="fa fa-plug"
+                        <a class="" href="javascript:;"><i class="fa fa-list-ul"
                                                            aria-hidden="true"></i><span> ${navParent.name}</span></a>
                         <dl class="layui-nav-child">
                             <c:forEach items="${navParent.menuList}" var="navChild">

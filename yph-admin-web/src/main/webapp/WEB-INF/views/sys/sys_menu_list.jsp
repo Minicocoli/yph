@@ -10,9 +10,10 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/js/plugins/font-awesome/css/font-awesome.min.css"
           media="all">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/layex/lay-ex.css" media="all">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" media="all">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/treeview/bootstrap-treeview.min.css"
-          media="all">
+    <%--ztree 插件--%>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/js/plugins/ztree/assets/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/js/plugins/ztree/dist/zTreeStyle.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/js/plugins/ztree/dist/font-awesome-zTree.css">
 </head>
 <body style="height:100%;width: 100%;padding:0;margin: 0;overflow: hidden">
 <input type="text" id="path" hidden="hidden" value="${pageContext.request.contextPath}">
@@ -21,8 +22,9 @@
 
     <%--左侧菜单树结构--%>
     <div style="width: 250px;height:90%;float:left;position: absolute;margin-top: 5px;margin-left: 5px;">
-        <div id="menuTree" style="overflow: scroll;">
-        </div>
+        <%--<div id="menuTree" style="overflow: scroll;">--%>
+            <ul id="tree" class="ztree" style="height: 460px;overflow: scroll"></ul>
+        <%--</div>--%>
     </div>
 
     <%--右侧内容结构--%>
@@ -81,7 +83,7 @@
         <legend style="margin: 0px;padding: 0px;">填写菜单信息</legend>
         <div class="layui-field-box">
             <form class="layui-form" action="">
-                <input type="text" id="id" name="id" value="" hidden="hidden" class="layui-input">
+                <input type="text" id="id" name="id" value="" hidden="hidden" style="display: none;" class="layui-input">
                 <div class="layui-form-item form-item-ex">
                     <div class="layui-row">
                         <div class="layui-col-xs6">
@@ -167,8 +169,8 @@
 </script>
 
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/css/treeview/bootstrap-treeview.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/plugins/ztree/dist/jquery.ztree.all-3.5.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/layui/layui.js"></script>
-<script src="${pageContext.request.contextPath}/js/sys/menu_list.js"></script>
+<script src="${pageContext.request.contextPath}/js/sys/sys_menu_list.js"></script>
 </body>
 </html>

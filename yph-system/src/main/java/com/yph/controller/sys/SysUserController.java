@@ -83,9 +83,9 @@ public class SysUserController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("findSysUserList")
-    public CommonResult findSysUserList(@RequestParam HashMap<String,Object> params){
-        PageInfo pageInfo =  sysUserService.findSysUserList(params);
+    @RequestMapping("findSysUserListByPage")
+    public CommonResult findSysUserListByPage(@RequestParam HashMap<String,Object> params,int pageNum,int pageSize){
+        PageInfo pageInfo =  sysUserService.findSysUserListByPage(params,pageNum,pageSize);
         return CommonResult.SUCCESS(pageInfo);
     }
 

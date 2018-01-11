@@ -6,6 +6,7 @@ import com.yph.common.result.CommonResult;
 import com.yph.entity.sys.SysMenu;
 import com.yph.entity.sys.vo.SysMenuVo;
 import com.yph.entity.tree.TreeVo;
+import com.yph.entity.tree.ZtreeVo;
 import com.yph.service.sys.ISysMenuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,91 +33,97 @@ public class SysMenuController {
     private ISysMenuService sysMenuService;
 
     /**
-     *  新增保存菜单
+     * 新增保存菜单
+     *
      * @param sysMenu
      * @return
      */
     @ResponseBody
     @RequestMapping("saveSysMenu")
-    public CommonResult saveSysMenu(SysMenu sysMenu){
-        int result = sysMenuService.saveSysMenu(sysMenu);
-        if(result<1){
+    public CommonResult saveSysMenu(SysMenu sysMenu) {
+        Long result = sysMenuService.saveSysMenu(sysMenu);
+        if (result < 1) {
             return CommonResult.ERROR("保存菜单失败!");
         }
         return CommonResult.SUCCESS();
     }
 
     /**
-     *  通过菜单Id 删除菜单
-      * @param id
+     * 通过菜单Id 删除菜单
+     *
+     * @param id
      * @return
      */
     @ResponseBody
     @RequestMapping("delSysMenuById")
-    public CommonResult delSysMenuById(Long id){
-      int result = sysMenuService.delSysMenuById(id);
-        if(result<1){
+    public CommonResult delSysMenuById(Long id) {
+        int result = sysMenuService.delSysMenuById(id);
+        if (result < 1) {
             return CommonResult.ERROR("删除菜单失败!");
         }
         return CommonResult.SUCCESS();
     }
 
     /**
-     *  更新菜单信息
+     * 更新菜单信息
+     *
      * @param sysMenu
      * @return
      */
     @SysLog("")
     @ResponseBody
     @RequestMapping("updateSysMenu")
-    public CommonResult updateSysMenu(SysMenu sysMenu){
+    public CommonResult updateSysMenu(SysMenu sysMenu) {
         int result = sysMenuService.updateSysMenu(sysMenu);
-        if(result<1){
+        if (result < 1) {
             return CommonResult.ERROR("更新菜单失败!");
         }
         return CommonResult.SUCCESS();
     }
 
     /**
-     *  通过类型获取菜单类别
+     * 通过类型获取菜单类别
+     *
      * @param type
      * @return
      */
     @ResponseBody
     @RequestMapping("findSysMenuListByType")
-    public CommonResult findSysMenuListByType(int type){
-      List<SysMenu> list = sysMenuService.findSysMenuListByType(type);
-      return CommonResult.SUCCESS(list);
+    public CommonResult findSysMenuListByType(Integer type) {
+        List<SysMenu> list = sysMenuService.findSysMenuListByType(type);
+        return CommonResult.SUCCESS(list);
     }
 
 
-
     /**
-     *  获取所有菜单
+     * 获取所有菜单
+     *
      * @return
      */
     @ResponseBody
     @RequestMapping("findAllMenu2TreeList")
-    public CommonResult findAllMenu2TreeList(){
-        List<TreeVo> treeList=sysMenuService.findAllMenu2TreeList();
+    public CommonResult findAllMenu2TreeList() {
+        List<TreeVo> treeList = sysMenuService.findAllMenu2TreeList();
         return CommonResult.SUCCESS(treeList);
     }
 
     /**
-     *  获取系统菜单 分页操作
+     * 获取系统菜单 分页操作
+     *
      * @param params
      * @return
      */
     @ResponseBody
     @RequestMapping("findMenuListByPage")
-    public CommonResult findMenuListByPage(@RequestParam HashMap<String,Object> params,int pageNum,int pageSize){
-       PageInfo pageInfo= sysMenuService.findMenuListByPage(params,pageNum,pageSize);
+    public CommonResult findMenuListByPage(@RequestParam HashMap<String, Object> params, int pageNum, int pageSize) {
+        PageInfo pageInfo = sysMenuService.findMenuListByPage(params, pageNum, pageSize);
         return CommonResult.SUCCESS(pageInfo);
     }
 
 
     /**
-     *  批量删除
+     * 批量删除
+     *
      * @param request
      * @return
      */
@@ -136,6 +143,18 @@ public class SysMenuController {
     }
 
 
+    /**
+     * 获取菜单列表  ztree
+     *
+     * @param params
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("findListByZtree")
+    public CommonResult findListByZtree(@RequestParam HashMap<String, Object> params) {
+        List<ZtreeVo> list = sysMenuService.findListByZtree(params);
+        return CommonResult.SUCCESS(list);
+    }
 
 
 }
