@@ -73,7 +73,29 @@ public class IndexController {
         SysUserRole sysUserRole = sysUserRoleService.findSysUserRoleByUserId(sysUser.getId());
         if(sysUserRole!=null){
             List<SysMenuVo> sysMenuList = sysMenuService.findSysMenuListByRole(sysUserRole.getRoleId());
-            session.setAttribute("menuList",sysMenuList);
+
+            if(sysMenuList.size()>8){
+                List<SysMenuVo> showList = new ArrayList<>();
+                for (int i = 0; i < 8; i++) {
+                    showList.add(sysMenuList.get(i));
+                }
+                SysMenuVo sysMenuVo =sysMenuList.get(9);
+                List<Object> hidenList = new ArrayList<>();
+                for (int i = 10; i <sysMenuList.size() ; i++) {
+                    hidenList.add(sysMenuList.get(i));
+                }
+                session.setAttribute("showList",showList);
+                session.setAttribute("sysMenuVo",sysMenuVo);
+                session.setAttribute("hidenList",hidenList);
+                session.setAttribute("isMenuSplit",false);
+            }else{
+                session.setAttribute("showList",null);
+                session.setAttribute("sysMenuVo",null);
+                session.setAttribute("hidenList",null);
+                session.setAttribute("isMenuSplit",true);
+                session.setAttribute("menuList",sysMenuList);
+            }
+
         }
         session.setAttribute("user",sysUser);
         return "begin";

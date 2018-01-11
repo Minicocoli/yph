@@ -89,8 +89,8 @@ public class SysMenuController {
      */
     @ResponseBody
     @RequestMapping("findSysMenuListByType")
-    public CommonResult findSysMenuListByType(Integer type) {
-        List<SysMenu> list = sysMenuService.findSysMenuListByType(type);
+    public CommonResult findSysMenuListByType(Integer type,Long parentId) {
+        List<SysMenu> list = sysMenuService.findSysMenuListByType(type,parentId);
         return CommonResult.SUCCESS(list);
     }
 

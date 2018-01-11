@@ -12,6 +12,17 @@
           media="all">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/app.css" media="all">
 </head>
+<style>
+    .menu-left-show{
+        display: block;
+    }
+
+    .menu-left-hide{
+        display: none;
+    }
+
+
+</style>
 <body>
 
 <div class="layui-layout layui-layout-admin kit-layout-admin">
@@ -26,6 +37,7 @@
 <script src="${pageContext.request.contextPath}/js/plugins/layui/layui.js"></script>
 <script>
     var message;
+    var changeLeftMenu;
     layui.config({
         base: 'js/'
     }).use(['app', 'message'], function () {
@@ -38,6 +50,25 @@
         app.set({
             type: 'iframe'
         }).init();
+
+
+
+        /**
+         *  改变隐藏左侧菜单
+         * @param obj
+         */
+        changeLeftMenu =function (obj) {
+            var id =  'menu_'+obj.id;
+            $('.menu-left-show').addClass('menu-left-hide');
+            $('.menu-left-show').removeClass(' menu-left-show');
+            $('#'+id).removeClass('menu-left-hide');
+            $('#'+id).addClass('menu-left-show');
+        }
+
+
+
+
+
     });
 </script>
 

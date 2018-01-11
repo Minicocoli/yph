@@ -461,7 +461,8 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
             }
         } else {
             $.post(serverPath + '/sys/menu/findSysMenuListByType.htm', {
-                type: type
+                type: type,
+                parentId :parentId
             }, function (data) {
                 var retData = JSON.parse(data);
                 if (retData.code == '0') {
