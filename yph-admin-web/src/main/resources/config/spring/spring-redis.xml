@@ -11,39 +11,35 @@
     <!--载入 redis 配置文件-->
     <context:property-placeholder location="classpath:config/redis.properties" ignore-unresolvable="true"/>
 
-    <!-- 配置 JedisPoolConfig 实例 -->
-    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
-        <property name="maxIdle" value="${redis.maxIdle}"/>
-        <property name="maxTotal" value="${redis.maxActive}"/>
-        <property name="maxWaitMillis" value="${redis.maxWait}"/>
-        <property name="testOnBorrow" value="${redis.testOnBorrow}"/>
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="1" />
+        <property name="maxTotal" value="5" />
+        <property name="blockWhenExhausted" value="true" />
+        <property name="maxWaitMillis" value="30000" />
+        <property name="testOnBorrow" value="true" />
     </bean>
 
-    <!-- 配置JedisConnectionFactory -->
     <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-        <property name="hostName" value="${redis.host}"/>
-        <property name="port" value="${redis.port}"/>
-        <property name="password" value="${redis.pass}"/>
-        <property name="database" value="${redis.dbIndex}"/>
-        <property name="poolConfig" ref="poolConfig"/>
+        <property name="hostName" value="127.0.0.1" />
+        <property name="port" value="6379"/>
+        <property name="poolConfig" ref="jedisPoolConfig" />
+        <property name="usePool" value="true"/>
     </bean>
 
-    <!-- 配置RedisTemplate -->
     <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
-        <property name="connectionFactory" ref="jedisConnectionFactory"/>
-    </bean>
-
-    <!-- 配置RedisCacheManager -->
-    <bean id="redisCacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
-        <constructor-arg name="redisOperations" ref="redisTemplate"/>
-        <property name="defaultExpiration" value="${redis.expiration}"/>
-    </bean>
-
-    <!-- 配置RedisCacheConfig -->
-    <bean id="redisCacheConfig" class="com.yph.config.RedisCacheConfig">
-        <constructor-arg ref="jedisConnectionFactory"/>
-        <constructor-arg ref="redisTemplate"/>
-        <constructor-arg ref="redisCacheManager"/>
+        <property name="connectionFactory"   ref="jedisConnectionFactory" />
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+        </property>
+        <property name="valueSerializer">
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+        </property>
+        <property name="hashKeySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="hashValueSerializer">
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+        </property>
     </bean>
 
 </beans>

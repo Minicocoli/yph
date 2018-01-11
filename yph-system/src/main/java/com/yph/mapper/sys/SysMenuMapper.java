@@ -17,7 +17,7 @@ public interface SysMenuMapper {
 
     int deleteByPrimaryKey(Long id);
 
-    int insert(SysMenu record);
+    Long insert(SysMenu record);
 
     int insertSelective(SysMenu record);
 

@@ -41,7 +41,7 @@ public class SysMenuController {
     @ResponseBody
     @RequestMapping("saveSysMenu")
     public CommonResult saveSysMenu(SysMenu sysMenu) {
-        int result = sysMenuService.saveSysMenu(sysMenu);
+        Long result = sysMenuService.saveSysMenu(sysMenu);
         if (result < 1) {
             return CommonResult.ERROR("保存菜单失败!");
         }
@@ -155,4 +155,6 @@ public class SysMenuController {
         List<ZtreeVo> list = sysMenuService.findListByZtree(params);
         return CommonResult.SUCCESS(list);
     }
+
+
 }

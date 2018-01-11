@@ -2,6 +2,8 @@ package com.yph.service.sys.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.yph.common.cache.RedisHandle;
+import com.yph.common.cache.RedisUtil;
 import com.yph.entity.sys.SysMenu;
 import com.yph.entity.sys.SysUserRole;
 import com.yph.entity.sys.vo.SysMenuVo;
@@ -33,26 +35,42 @@ import java.util.List;
 @Slf4j
 @Service
 @Transactional
-@CacheConfig(cacheNames="sysMenu")
 public class SysMenuServiceImpl implements ISysMenuService {
+
+    // 单个缓存key
+    private static final String ONE_KEY ="SYS_MENU_ONE#";
+    // list 缓存key
+    private static final String LIST_KEY ="SYS_MENU_LIST#";
+
 
     @Autowired
     private SysMenuMapper sysMenuMapper;
     @Autowired
     private ISysUserRoleService sysUserRoleService;
+
+    @Autowired
+    private RedisUtil redisUtil;
+
     /**
      *  保存菜单
      * @param sysMenu
      * @return
      */
     @Override
-    public int saveSysMenu(SysMenu sysMenu) {
+    public Long saveSysMenu(SysMenu sysMenu) {
         sysMenu.setFlag(new Byte("0"));
         sysMenu.setCreateTime(new Date());
         if(sysMenu.getParentId()==null){
             sysMenu.setParentId(0L);
         }
-        return sysMenuMapper.insert(sysMenu);
+        // 插入数据 返回主键Id
+        Long sysMenuId= sysMenuMapper.insert(sysMenu);
+        if(sysMenuId>0){
+            // 缓存到缓存中。。
+            sysMenu.setId(sysMenuId);
+            redisUtil.set(SysMenuServiceImpl.ONE_KEY,sysMenu);
+        }
+        return sysMenuId;
     }
 
     /**
@@ -62,7 +80,11 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public int updateSysMenu(SysMenu sysMenu) {
-        return sysMenuMapper.updateByPrimaryKeySelective(sysMenu);
+        int result= sysMenuMapper.updateByPrimaryKeySelective(sysMenu);
+        if(result>0){
+            redisUtil.remove(SysMenuServiceImpl.ONE_KEY);
+        }
+        return result;
     }
 
     /**
@@ -81,7 +103,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @return
      */
     @Override
-    @Cacheable(key="#sysMenu.getType()")
     public List<SysMenuVo> findSysMenuList(SysMenu sysMenu) {
         return sysMenuMapper.findSysMenuList(sysMenu);
     }
@@ -91,7 +112,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @return
      */
     @Override
-    @Cacheable(key = "all_")
     public List<SysMenuVo> findAllSysMenuList() {
         List<SysMenuVo> list = new ArrayList<>();
         SysMenu sysMenu = new SysMenu();
@@ -213,12 +233,18 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @return
      */
     @Override
-    @Cacheable(value ="sysMenuType",key="#type")
     public List<SysMenu> findSysMenuListByType(Integer type) {
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("type",type);
-        List<SysMenu> list = sysMenuMapper.findSysMenuListByParams(params);
-        return list;
+
+        List<SysMenu> cacheList = (List<SysMenu>) redisUtil.getList("menu_" + type);
+        if(cacheList!=null){
+            return  cacheList;
+        }else{
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("type",type);
+            List<SysMenu> list = sysMenuMapper.findSysMenuListByParams(params);
+            redisUtil.addList("menu_"+type,list);
+            return list;
+        }
     }
 
     @Override
@@ -233,6 +259,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public List<ZtreeVo> findListByZtree(HashMap<String, Object> params) {
+        List<ZtreeVo> list = null;
         Long parentId = null;
         Long roleId = null;
         if(params.get("id")==null){
@@ -246,7 +273,19 @@ public class SysMenuServiceImpl implements ISysMenuService {
             roleId = sysUserRole.getRoleId();
         }
         params.put("parentId",parentId);
-        return sysMenuMapper.findListByZtree(params);
+
+        String key = SysMenuServiceImpl.LIST_KEY + "roleId:"+roleId + "#parentId:" + parentId;
+        boolean exists = redisUtil.exists(key);
+        if(exists){
+            list= redisUtil.getList(key);
+            log.info("[ 获取ztree 树  缓存查询 -----> parentId : {}  roleId --->{} ]",parentId,roleId);
+            return  list;
+        }else{
+            list = sysMenuMapper.findListByZtree(params);
+            log.info("[ 获取ztree 树  数据库查询  -----> parentId : {}  roleId --->{} ]",parentId,roleId);
+            redisUtil.addList(key,list);
+            return list;
+        }
     }
 
 }

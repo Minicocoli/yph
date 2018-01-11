@@ -328,8 +328,6 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
 
         getMenuListPage();
 
-        initTree();
-
     }
 
     /**

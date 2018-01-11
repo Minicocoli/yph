@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 系统用户角色
+ *
  * @author : Administrator Hzhan
  * @create ：2018/1/3
  **/
@@ -18,12 +19,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class SysUserRoleServiceImpl implements ISysUserRoleService {
 
+
+    private static final String ONE_KEY = "";
+
+
+    private static final String LIST_KEY = "";
+
+
     @Autowired
     private SysUserRoleMapper sysUserRoleMapper;
 
 
     /**
-     *  保存 用户角色关系
+     * 保存 用户角色关系
+     *
      * @param sysUserRole
      * @return
      */
@@ -33,7 +42,8 @@ public class SysUserRoleServiceImpl implements ISysUserRoleService {
     }
 
     /**
-     *  更新 用户角色关系
+     * 更新 用户角色关系
+     *
      * @param sysUserRole
      * @return
      */
@@ -43,7 +53,8 @@ public class SysUserRoleServiceImpl implements ISysUserRoleService {
     }
 
     /**
-     *  删除 用户角色关系
+     * 删除 用户角色关系
+     *
      * @param sysUserRole
      * @return
      */

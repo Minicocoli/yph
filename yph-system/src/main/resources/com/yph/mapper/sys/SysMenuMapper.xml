@@ -122,7 +122,8 @@
       update sys_menu set flag ='1' where id = #{id,jdbcType=BIGINT}
   </delete>
 
-    <insert id="insert" parameterType="com.yph.entity.sys.SysMenu">
+    <!--插入系统菜单  注意：返回插入时的主键Id-->
+    <insert id="insert" parameterType="com.yph.entity.sys.SysMenu" useGeneratedKeys="true" keyProperty="id">
     insert into sys_menu (id, parent_id, name, 
       url, perms, type, sort,flag,create_time
       )

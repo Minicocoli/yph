@@ -24,7 +24,6 @@ import java.util.List;
 @Slf4j
 @Service
 @Transactional
-@CacheConfig(cacheNames = "sys_user")
 public class SysUserServiceImpl implements ISysUserService{
 
     @Autowired
@@ -67,7 +66,6 @@ public class SysUserServiceImpl implements ISysUserService{
      * @return
      */
     @Override
-    @Cacheable(key="#user.getUserName()")
     public SysUser findUserByNameAndPassword(SysUser user) {
         return  sysUserMapper.findUserByNameAndPassword(user);
     }

@@ -13,7 +13,7 @@ import java.util.List;
 public interface ISysMenuService {
 
 
-    int saveSysMenu(SysMenu sysMenu);
+    Long saveSysMenu(SysMenu sysMenu);
 
     int updateSysMenu(SysMenu sysMenu);
 
