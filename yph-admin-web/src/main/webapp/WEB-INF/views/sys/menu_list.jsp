@@ -73,7 +73,7 @@
 </div>
 
 <%--新建菜单 弹出框--%>
-<div id="createMenuWindow" hidden="hidden" style="overflow: hidden">
+<div id="createMenuWindow" hidden="hidden" >
     <blockquote class="layui-elem-quote" style="margin-top: 5px;">
       系统菜单 : 增添系统的功能喔!
     </blockquote>
