@@ -68,7 +68,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
             , limits: page.limits
             , curr: page.curr
             , groups: page.groups
-            , layout: ['count', 'prev', 'page', 'next', 'limit', 'skip']
+            , layout: ['prev', 'page', 'next', 'limit', 'skip' ,'count']
             , jump: function (obj, first) {
                 //首次不执行
                 if (!first) {

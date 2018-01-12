@@ -72,7 +72,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
             , limits: page.limits
             , curr: page.curr
             , groups: page.groups
-            , layout: ['count', 'prev', 'page', 'next', 'limit', 'skip']
+            , layout: [ 'prev', 'page', 'next', 'limit', 'skip','count']
             , jump: function (obj, first) {
                 //首次不执行
                 if (!first) {
@@ -104,7 +104,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
                 enable: true,
                 url: serverPath + '/sys/menu/findListByZtree.htm?roleId='+roleId,
                 autoParam: ["id"],
-                // otherParam:["roleId",selectRoleId],
+                otherParam:["roleId",selectRoleId],
                 dataFilter: datasFilter,
                 type: 'post'
             },
@@ -456,7 +456,9 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
      *  获取菜单树形
      */
     var getMenuListTree = function () {
-        $.post(serverPath + "/sys/menu/findAllMenu2TreeList.htm", function (data) {
+        $.post(serverPath + "/sys/menu/findAllMenu2TreeList.htm",{
+
+        }, function (data) {
             var retObj = JSON.parse(data);
             if (retObj.code == '0') {
                 // initTree(retObj.data);
@@ -496,5 +498,6 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
             }
         });
     }
+
     init();
 });

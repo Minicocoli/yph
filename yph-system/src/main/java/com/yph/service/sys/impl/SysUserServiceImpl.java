@@ -2,6 +2,7 @@ package com.yph.service.sys.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.yph.common.annotation.RedisCache;
 import com.yph.entity.sys.SysUser;
 import com.yph.entity.sys.vo.SysUserVo;
 import com.yph.mapper.sys.SysUserMapper;
@@ -66,6 +67,7 @@ public class SysUserServiceImpl implements ISysUserService{
      * @return
      */
     @Override
+    @RedisCache(type = SysUser.class)
     public SysUser findUserByNameAndPassword(SysUser user) {
         return  sysUserMapper.findUserByNameAndPassword(user);
     }
@@ -76,6 +78,7 @@ public class SysUserServiceImpl implements ISysUserService{
      * @return
      */
     @Override
+    @RedisCache(type = PageInfo.class)
     public PageInfo findSysUserListByPage(HashMap<String, Object> params, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<SysUserVo> list = sysUserMapper.findSysUserListByPage(params);

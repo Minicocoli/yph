@@ -2,7 +2,9 @@ package com.yph.service.sys.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.yph.common.annotation.RedisCache;
 import com.yph.entity.sys.SysRole;
+import com.yph.entity.sys.SysUser;
 import com.yph.entity.sys.vo.SysRoleVo;
 import com.yph.mapper.sys.SysRoleMapper;
 import com.yph.service.sys.ISysRoleService;
@@ -72,6 +74,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @return
      */
     @Override
+    @RedisCache(type = PageInfo.class)
     public PageInfo findSysRoleListByPage(Map<String,Object> params,int pageNum,int pageSize) {
         PageHelper.startPage(pageNum,pageSize);
         List<SysRoleVo> list= sysRoleMapper.findSysRoleListByPage(params);
@@ -95,11 +98,13 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @return
      */
     @Override
+    @RedisCache(type = SysRole.class)
     public SysRole findSysRoleById(Long id) {
         return sysRoleMapper.selectByPrimaryKey(id);
     }
 
     @Override
+    @RedisCache(type = SysRole.class)
     public List<SysRole> findSysRoleList(HashMap<String, Object> params) {
         return sysRoleMapper.findSysRoleList(params);
     }
