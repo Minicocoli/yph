@@ -1,24 +1,8 @@
-.kit-login-bg {
-	/*background: url(../Images/login-bg-1.jpg) no-repeat center center fixed;*/
-	background-color: #393D49;
+.kit-login-box header {
+	height: 39px;
+	padding: 10px;
+	border-bottom: 1px solid rgba(0, 150, 136, 0.5);
 }
-
-.kit-login-box {
-    width: 390px;
-    /*height: 330px;*/
-    margin: 10% auto;
-    background-color: #666;
-    background-color: rgba(46, 46, 46, 0.61);
-    border-radius: 10px;
-    color: aliceblue;
-    box-shadow: 0px 0px 20px 0px #009688;
-}
-
-    .kit-login-box header {
-        height: 39px;
-        padding: 10px;
-        border-bottom: 1px solid rgba(0, 150, 136, 0.5);
-    }
 
 .kit-login-box header h1 {
 	text-align: center;
@@ -26,13 +10,13 @@
 	line-height: 40px;
 }
 
-    .kit-login-box .kit-login-main {
-        /*height: 185px;*/
-        padding: 30px 50px 0;
-    }
-    .kit-login-box .kit-login-main .layui-input:focus {
-        border-color: #009688 !important;
-    }
+.kit-login-box .kit-login-main {
+	/*height: 185px;*/
+	padding: 30px 50px 0;
+}
+.kit-login-box .kit-login-main .layui-input:focus {
+	border-color: #009688 !important;
+}
 
 .kit-login-main .layui-form-item {
 	position: relative;
@@ -50,8 +34,8 @@
 }
 
 .kit-login-box footer {
-    height: 85px;
-    /*padding: 10px 10px 0 10px;*/
+	height: 85px;
+	/*padding: 10px 10px 0 10px;*/
 }
 
 .kit-login-box footer p {
@@ -74,14 +58,14 @@
 .kit-login-remember {
 	line-height: 38px;
 }
-    .kit-login-remember .layui-form-checkbox[lay-skin=primary] span {
-        color: white;
-    }
+.kit-login-remember .layui-form-checkbox[lay-skin=primary] span {
+	color: white;
+}
 
-    .kit-login-remember .layui-form-checked[lay-skin=primary] i {
-        border-color: #009688;
-        background-color: #009688;
-    }
+.kit-login-remember .layui-form-checked[lay-skin=primary] i {
+	border-color: #009688;
+	background-color: #009688;
+}
 
 .kit-login-remember .layui-form-switch {
 	margin-top: 0px;
@@ -102,4 +86,50 @@
 	position: absolute;
 	left: 115px;
 	height: 38px;
+}
+.wrapper{width:1200px;margin:0 auto;}
+.login .logo{padding:20px 0}
+.login .logo img {height:60px;}
+.login .tip{line-height:100px;}
+.login .tel-icon{margin-right:5px;}
+.login .tel{font-size:16px;color:#666;}
+.login .bg{width:100%;height:700px;background:url("../img/bg.png") no-repeat;}
+.login .bg .wrapper{position:relative;height:100%;}
+.login .controls{text-align:center;line-height:50px;color:#666;font-size: 20px;}
+.login input{box-shadow:none !important;}
+.login .flip-link{border: 0; background: #ff8124;color: #fff;text-shadow: none;font-size: 16px;line-height: 40px; border-radius: 5px;}
+.login .codediv{width:40%;margin-right: 10px;}
+.login .codediv input{height: 40px;width: 100%;border-radius: 5px;}
+.login .code{width:40%;}
+.login .code img{width:100%;height:40px;}
+.login .refresh{line-height:40px;height:40px;font-size:16px;}
+#logo img {  margin: 0 auto;    display: block;}
+#loginbox { z-index: 100;  text-align: center;  position:absolute;width:30%;right:0;top:50%;margin-top:-200px;}
+#loginbox form{ width:100%; background-color:#fff;  position:relative; top:0; left:0;box-shadow:0 4px 10px #666; }
+
+#loginbox h3{color:#ff8124;font-size:34px;}
+#loginbox .form-actions { padding: 14px 20px 15px;}
+#loginbox .form-actions .pull-left { margin-top:0px;}
+#loginbox form#loginform { z-index: 200; display:block;}
+#loginbox form#recoverform { z-index: 100;     display:none;}
+#loginbox form#recoverform .form-actions {    margin-top: 10px;}
+#loginbox .main_input_box { margin:0 auto; text-align:center; font-size:13px;border:1px solid #ccc; border-radius:5px;}
+#loginbox .main_input_box .add-on{  padding:10px 9px; *line-height:31px; color:#fff;  width:30px; display:inline-block;}
+#loginbox .main_input_box input{ height:35px; border:0px; display:inline-block; width:75%; line-height:35px;  margin-bottom:0px;}
+#loginbox .controls{ padding:0 20px;}
+#loginbox .control-group{ padding:10px 0; margin-bottom:0px;}
+.form-vertical, .form-actions {  margin-bottom: 0; background:none; }
+#loginbox .normal_text{ padding:15px 10px; text-align:center; font-size:14px; line-height:20px;  color:#fff;}
+
+@media (max-width: 768px) {
+	#loginbox{right:38%;width:25%;}
+	.header{width:768px;padding:0 20px;}
+	.slideBox .bd .banner01{margin-top:-110px !important;}
+	.slideBox .bd .banner02{margin-top:-180px !important;}
+	.slideBox .bd img{width:60%;}
+}
+@media (max-width: 480px){
+	#logo { width: 40%; }
+	#loginbox{ width:90%}
+	#loginbox .control-group{ padding:8px 0; margin-bottom:0px;}
 }

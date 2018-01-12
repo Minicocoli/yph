@@ -1,0 +1,22 @@
+*{padding: 0px;margin: 0px}
+body{padding: 0px;margin: 0px;background-color: #EDEFF3;margin-bottom: 60px;color: #6a6a6a;font-family:"微软雅黑";}
+/* 去除iPhone中默认的input样式 */
+input[type="submit"], input[type="reset"], input[type="button"]{ -webkit-appearance:none !important; resize: none;outline: none;}
+/* 取消链接高亮  */
+body,div,ul,li,ol,h1,h2,h3,h4,h5,h6,input,textarea,select,p,dl,dt,dd,a,img,button,form,table,th,tr,td,tbody,article,aside, details,figcaption,figure,footer,header,hgroup, menu,nav,section{ -webkit-tap-highlight-color:rgba(0, 0, 0, 0); }
+ul li,ol li{list-style:none;}
+input,select,button,textarea,option{outline:none;}
+input:focus{outline:none;}
+a:HOVER,a:VISITED,a:FOCUS,a:LINK{text-decoration: none;}
+a{ -webkit-tap-highlight-color:rgba(255,0,0,0);text-decoration: none;}
+em,i{font-style:normal;}
+.clearfix:after {
+	content: ".";
+	clear: both;
+	height: 0;
+	visibility: hidden;
+	display: block;
+}
+.clear{clear:both;}
+.fl{float:left;}
+.fr{float:right;}

@@ -9,139 +9,94 @@
     <script>
         if (window != window.top) top.location.href = self.location.href;
     </script>
+    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet"/>
     <link href="${pageContext.request.contextPath}/js/plugins/layui/css/layui.css" rel="stylesheet"/>
     <link href="${pageContext.request.contextPath}/js/plugins/font-awesome/css/font-awesome.css" rel="stylesheet"/>
     <link href="${pageContext.request.contextPath}/css/login.css" rel="stylesheet"/>
-    <link href="${pageContext.request.contextPath}/js/plugins/sideshow/css/normalize.css" rel="stylesheet"/>
-    <link href="${pageContext.request.contextPath}/js/plugins/sideshow/css/demo.css" rel="stylesheet"/>
-    <link href="${pageContext.request.contextPath}/js/plugins/sideshow/css/component.css" rel="stylesheet"/>
-    <!--[if IE]>
-    <script src="${pageContext.request.contextPath}/js/plugins/sideshow/js/html5.js"></script>
-    <![endif]-->
-    <style>
-        canvas {
-            position: absolute;
-            z-index: -1;
-        }
-
-        .kit-login-box header h1 {
-            line-height: normal;
-        }
-
-        .kit-login-box header {
-            height: auto;
-        }
-
-        .content {
-            position: relative;
-        }
-
-        .codrops-demos {
-            position: absolute;
-            bottom: 0;
-            left: 40%;
-            z-index: 10;
-        }
-
-        .codrops-demos a {
-            border: 2px solid rgba(242, 242, 242, 0.41);
-            color: rgba(255, 255, 255, 0.51);
-        }
-
-        .kit-pull-right button,
-        .kit-login-main .layui-form-item input {
-            background-color: transparent;
-            color: white;
-        }
-
-        .kit-login-main .layui-form-item input::-webkit-input-placeholder {
-            color: white;
-        }
-
-        .kit-login-main .layui-form-item input:-moz-placeholder {
-            color: white;
-        }
-
-        .kit-login-main .layui-form-item input::-moz-placeholder {
-            color: white;
-        }
-
-        .kit-login-main .layui-form-item input:-ms-input-placeholder {
-            color: white;
-        }
-
-        .kit-pull-right button:hover {
-            border-color: #009688;
-            color: #009688
-        }
-    </style>
+    <link href="${pageContext.request.contextPath}/css/slide.css" rel="stylesheet"/>
 </head>
-
-
-<body class="kit-login-bg">
-<div class="container demo-1">
-    <div class="content">
-        <div id="large-header" class="large-header">
-            <canvas id="demo-canvas"></canvas>
-            <div class="kit-login-box">
-                <header>
-                    <h1>用户登录</h1>
-                </header>
-                <div class="kit-login-main">
-                    <form id="formId" action="/" class="layui-form" method="post">
-                        <div class="layui-form-item">
-                            <label class="kit-login-icon">
-                                <i class="layui-icon">&#xe612;</i>
-                            </label>
-                            <input type="text" name="userName" lay-verify="required" autocomplete="off"
-                                   placeholder="这里输入用户名." class="layui-input">
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="kit-login-icon">
-                                <i class="layui-icon">&#xe642;</i>
-                            </label>
-                            <input type="password" name="password" lay-verify="required" autocomplete="off"
-                                   placeholder="这里输入密码." class="layui-input">
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="kit-login-icon">
-                                <i class="layui-icon">&#xe642;</i>
-                            </label>
-                            <input type="text" id="validCode" name="validCode" autocomplete="off" placeholder="输入验证码"
-                                   class="layui-input">
-                            <span class="form-code" id="changeCode" style="position:absolute;right:2px; top:2px;">
-                                    <img width="100" height="36" src="${pageContext.request.contextPath}/sys/user/captcha.htm"
-                                         id="refImg" style="cursor:pointer;" title="点击刷新"/>
-                                </span>
-                        </div>
-                        <div class="layui-form-item">
-                            <div class="kit-pull-left kit-login-remember">
-                                <input type="checkbox" name="rememberMe" value="true" lay-skin="primary" checked
-                                       title="记住帐号?">
-                            </div>
-                            <div class="kit-pull-right">
-                                <button class="layui-btn layui-btn-primary" lay-submit lay-filter="login">
-                                    <i class="fa fa-sign-in" aria-hidden="true"></i> 登录
-                                </button>
-                            </div>
-                            <div class="kit-clear"></div>
-                        </div>
-                    </form>
+<body class="login" style="background:#ffffff;">
+    <div>
+        <div class="wrapper header clearfix" style="height:100px;">
+            <div class="fl logo"><img src="${pageContext.request.contextPath}/img/logo.png" /></div>
+            <div class="fr tip" ><i class="tel-icon"><img height="37" src="${pageContext.request.contextPath}/img/tel.png" /></i><span class="tel">服务热线：020-89859636</span></div>
+        </div>
+        <div class="bg  slideBox container clearfix">
+            <div class="fl" style="height:100%;width:60%;">
+                <div class="hd">
+                    <ul><li></li><li></li></ul>
                 </div>
-                <footer>
-                    <p>云品汇科技有限公司</p>
-                </footer>
+                <div class="wrapper" style="padding:20px 0">
+                    <div class="slide">
+                        <div  id="slideBox" class="slideBox">
+                            <div class="bd">
+                                <ul class="clearfix">
+                                    <li class="banner01"><img src="${pageContext.request.contextPath}/img/banner1.png" /></li>
+                                    <li class="banner02"><img src="${pageContext.request.contextPath}/img/banner2.png" /></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="large-header" class="large-header fr" style="width: 400px;">
+                <div class="kit-login-box">
+                    <header>
+                        <h1>用户登录</h1>
+                    </header>
+                    <div class="kit-login-main">
+                        <form id="formId" action="/" class="layui-form" method="post">
+                            <div class="layui-form-item">
+                                <label class="kit-login-icon">
+                                    <i class="layui-icon">&#xe612;</i>
+                                </label>
+                                <input type="text" name="userName" lay-verify="required" autocomplete="off"
+                                       placeholder="这里输入用户名." class="layui-input">
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="kit-login-icon">
+                                    <i class="layui-icon">&#xe642;</i>
+                                </label>
+                                <input type="password" name="password" lay-verify="required" autocomplete="off"
+                                       placeholder="这里输入密码." class="layui-input">
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="kit-login-icon">
+                                    <i class="layui-icon">&#xe642;</i>
+                                </label>
+                                <input type="text" id="validCode" name="validCode" autocomplete="off" placeholder="输入验证码"
+                                       class="layui-input">
+                                <span class="form-code" id="changeCode" style="position:absolute;right:2px; top:2px;">
+                                        <img width="100" height="36" src="${pageContext.request.contextPath}/sys/user/captcha.htm"
+                                             id="refImg" style="cursor:pointer;" title="点击刷新"/>
+                                    </span>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="kit-pull-left kit-login-remember">
+                                    <input type="checkbox" name="rememberMe" value="true" lay-skin="primary" checked
+                                           title="记住帐号?">
+                                </div>
+                                <div class="kit-pull-right">
+                                    <button class="layui-btn layui-btn-primary" lay-submit lay-filter="login">
+                                        <i class="fa fa-sign-in" aria-hidden="true"></i> 登录
+                                    </button>
+                                </div>
+                                <div class="kit-clear"></div>
+                            </div>
+                        </form>
+                    </div>
+                    <footer>
+                        <p>云品汇科技有限公司</p>
+                    </footer>
+                </div>
             </div>
         </div>
     </div>
-</div>
 <!-- /container -->
 
-<script src="${pageContext.request.contextPath}/js/plugins/layui/layui.js"></script>
-<script src="${pageContext.request.contextPath}/js/plugins/sideshow/js/TweenLite.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/plugins/sideshow/js/EasePack.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/plugins/sideshow/js/rAF.js"></script>
-<script src="${pageContext.request.contextPath}/js/plugins/sideshow/js/demo-1.js"></script>
+    <script src="${pageContext.request.contextPath}/js/jquery-1.11.3.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/plugins/layui/layui.js"></script>
+    <script src="${pageContext.request.contextPath}/js/jquery.SuperSlide.2.1.1.js"></script>
 <script>
     layui.use(['layer', 'form'], function () {
         var layer = layui.layer,
@@ -174,6 +129,10 @@
         }());
 
     });
+    //焦点图
+    $(function(){
+        jQuery(".slideBox").slide({mainCell:".bd ul",autoPlay:true});
+    }) ;
 </script>
 </body>
 

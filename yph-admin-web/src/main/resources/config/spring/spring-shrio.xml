@@ -49,6 +49,7 @@
             <value>
                 /=anon
                 /css/**=anon
+                /img/**=anon
                 /js/**=anon
                 /sys/user/login.htm=anon
                 /error/error404.jsp = anon
