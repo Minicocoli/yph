@@ -1,5 +1,6 @@
 package com.yph.service.sys.impl;
 
+import com.yph.common.annotation.RedisCache;
 import com.yph.entity.sys.SysRoleMenu;
 import com.yph.entity.sys.vo.SysRoleMenuVo;
 import com.yph.mapper.sys.SysRoleMenuMapper;
@@ -64,6 +65,7 @@ public class SysRoleMenuServiceImpl implements ISysRoleMenuService{
      * @return
      */
     @Override
+    @RedisCache(type = SysRoleMenuVo.class)
     public List<SysRoleMenuVo> findRoleMenuList(Long roleId) {
        return sysRoleMenuMapper.findRoleMenuList(roleId);
     }

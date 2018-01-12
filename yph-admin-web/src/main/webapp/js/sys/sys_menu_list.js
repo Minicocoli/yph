@@ -326,6 +326,8 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
 
         initPgae();
 
+        initTree();
+
         getMenuListPage();
 
     }
@@ -362,13 +364,6 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
                 layer.msg('没有下级的菜单啦~~~');
                 return null;
             }
-
-            // 将选择了的放进去 数组装起来
-            for(var i=0;i<childNodes.data.length;i++){
-                if(childNodes.data[i].checked=='true'){
-                    selectMenusList.push(childNodes.data[i]);
-                }
-            }
             return childNodes.data;
         } else {
             layer.msg('获取下级菜单失败!');
@@ -392,7 +387,6 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
                 initMenuTable(retObj.data.list);
                 page.count = retObj.data.total;
                 initPgae();
-                initTree();
                 isPaging = false;
                 layer.closeAll();
             } else {
@@ -418,6 +412,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
                 layer.closeAll();
                 layer.msg(retData.msg);
                 getMenuListPage();
+                initTree();
             } else {
                 layer.msg(retData.msg);
             }
@@ -436,6 +431,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
             if (retData.code == '0') {
                 layer.closeAll();
                 layer.msg(retData.msg);
+                initTree();
                 getMenuListPage();
             } else {
                 layer.msg(retData.msg);
@@ -481,12 +477,6 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
         }
     }
 
-    /**
-     *   清除下拉菜单缓存
-     */
-    var clearAllCache = function () {
-    }
-
 
     /**
      *  批量删除 通过Id
@@ -507,6 +497,7 @@ layui.use(['laydate', 'laypage', 'layer', 'table', 'form', 'element'], function 
                     layer.closeAll();
                     layer.msg('删除成功!');
                     getMenuListPage();
+                    initTree();
                 }
             },
             error: function (e) {

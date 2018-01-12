@@ -1,6 +1,7 @@
 package com.yph.controller.sys;
 
 import com.github.pagehelper.PageInfo;
+import com.yph.common.annotation.RedisCache;
 import com.yph.common.annotation.SysLog;
 import com.yph.common.result.CommonResult;
 import com.yph.entity.sys.SysMenu;

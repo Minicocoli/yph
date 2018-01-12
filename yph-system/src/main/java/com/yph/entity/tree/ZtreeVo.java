@@ -1,6 +1,8 @@
 package com.yph.entity.tree;
 
 import lombok.Data;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -58,7 +60,7 @@ public class ZtreeVo implements Serializable {
      */
     private Integer type;
 
-
+    @JsonIgnore
     public String getIsParent() {
        if(type!=2){
            return "true";
@@ -67,6 +69,7 @@ public class ZtreeVo implements Serializable {
        }
     }
 
+    @JsonProperty(value = "isParent")
     public void setIsParent(String isParent) {
         if(type!=2){
             this.isParent="true";

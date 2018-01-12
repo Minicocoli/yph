@@ -31,6 +31,9 @@
     <div class="layui-body" id="container">
     </div>
     <jsp:include page="base/footer.jsp"/>
+
+    <%@include file="base/footer.jsp"%>
+
 </div>
 
 <%--<script src="${pageContext.request.contextPath}/js/plugins/layui/lay/modules/jquery.js"></script>--%>

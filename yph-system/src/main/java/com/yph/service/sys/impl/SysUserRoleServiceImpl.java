@@ -1,5 +1,7 @@
 package com.yph.service.sys.impl;
 
+import com.yph.common.annotation.RedisCache;
+import com.yph.entity.sys.SysUser;
 import com.yph.entity.sys.SysUserRole;
 import com.yph.mapper.sys.SysUserRoleMapper;
 import com.yph.service.sys.ISysUserRoleService;
@@ -64,6 +66,7 @@ public class SysUserRoleServiceImpl implements ISysUserRoleService {
     }
 
     @Override
+    @RedisCache(type = SysUserRole.class)
     public SysUserRole findSysUserRoleByUserId(Long sysUserId) {
         return sysUserRoleMapper.findSysUserRoleByUserId(sysUserId);
     }
