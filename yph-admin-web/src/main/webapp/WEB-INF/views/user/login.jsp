@@ -26,7 +26,7 @@
                 <div class="hd">
                     <ul><li></li><li></li></ul>
                 </div>
-                <div class="wrapper" style="padding:20px 0">
+                <div class="" style="padding:20px 0">
                     <div class="slide">
                         <div  id="slideBox" class="slideBox">
                             <div class="bd">
